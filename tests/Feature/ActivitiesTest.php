@@ -84,4 +84,21 @@ class ActivitiesTest extends TestCase
             'description' => 'Cycling is a family fun activity'
         ]);
     }
+
+    public function testCanSoftDeleteActivityRecords()
+    {
+          // setup
+          $this->withoutExceptionHandling();
+          $user = factory(User::class)->create();
+          $activity = factory(Activity::class)->create();
+
+          // act
+          $response = $this->actingAs($user)->deleteJson('/api/v1/activities/' . $activity->id);
+
+          // assert
+          $response->assertStatus(204);
+          $this->assertSoftDeleted('activities', [
+              'title' => $activity->title,
+          ]);
+    }
 }
