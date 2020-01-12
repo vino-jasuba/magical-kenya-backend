@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateActivityRequest;
 use App\Http\Resources\ActivityResource;
 use App\Http\Services\ActivityRepositoryService;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class ActivityController extends Controller
 {
@@ -73,6 +74,8 @@ class ActivityController extends Controller
      */
     public function destroy(Activity $activity)
     {
-        //
+        $this->activityRepository->deleteActivity($activity);
+
+        return response('', Response::HTTP_NO_CONTENT);
     }
 }

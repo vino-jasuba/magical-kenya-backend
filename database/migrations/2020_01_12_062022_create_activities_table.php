@@ -18,6 +18,7 @@ class CreateActivitiesTable extends Migration
             $table->string('title');
             $table->string('catchphrase');
             $table->mediumText('description');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

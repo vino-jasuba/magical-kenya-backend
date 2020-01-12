@@ -19,11 +19,10 @@ interface ActivityRepositoryService
     /**
      * Soft delete an existing activity
      *
-     * @param Request $request
      * @param Activity $activity
      * @return void
      */
-    public function deleteActivity(Request $request, Activity $activity);
+    public function deleteActivity(Activity $activity);
 
     /**
      * Update the details on an existing activity

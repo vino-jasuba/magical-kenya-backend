@@ -19,9 +19,9 @@ class ActivityRepository implements ActivityRepositoryService
         return $activity;
     }
 
-    public function deleteActivity(\Illuminate\Http\Request $request, \App\Activity $activity)
+    public function deleteActivity(\App\Activity $activity)
     {
-
+        $activity->delete();
     }
 
     public function listActivities(\Illuminate\Http\Request $request): \Illuminate\Support\Collection
