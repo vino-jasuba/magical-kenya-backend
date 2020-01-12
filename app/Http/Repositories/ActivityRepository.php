@@ -14,7 +14,9 @@ class ActivityRepository implements ActivityRepositoryService
 
     public function updateActivity(\Illuminate\Http\Request $request, \App\Activity $activity): \App\Activity
     {
-
+        $activity->fill($request->input());
+        $activity->save();
+        return $activity;
     }
 
     public function deleteActivity(\Illuminate\Http\Request $request, \App\Activity $activity)

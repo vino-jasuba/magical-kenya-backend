@@ -66,4 +66,22 @@ class ActivitiesTest extends TestCase
         $response->assertStatus(401)
             ->assertSee('Unauthenticated');
     }
+
+    public function testItCanUpdateActivityDetails()
+    {
+        // setup
+        $user = factory(User::class)->create();
+        $activity = factory(Activity::class)->create();
+
+        // act
+        $response = $this->actingAs($user)->patchJson('/api/v1/activities/' . $activity->id, [
+            'description' => 'Cycling is a family fun activity',
+        ]);
+
+        // assert
+        $response->assertSee('Cycling is a family fun activity');
+        $this->assertDatabaseHas('activities', [
+            'description' => 'Cycling is a family fun activity'
+        ]);
+    }
 }
