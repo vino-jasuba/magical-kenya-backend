@@ -4,9 +4,13 @@ namespace App\Http\Repositories;
 
 use App\Activity;
 use App\Http\Services\ActivityRepositoryService;
+use App\MagicalKenya\Traits\PaginatorLength;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class ActivityRepository implements ActivityRepositoryService
 {
+    use PaginatorLength;
+
     public function createActivity(\Illuminate\Http\Request $request): \App\Activity
     {
         return Activity::create($request->all());
@@ -24,8 +28,8 @@ class ActivityRepository implements ActivityRepositoryService
         $activity->delete();
     }
 
-    public function listActivities(\Illuminate\Http\Request $request): \Illuminate\Support\Collection
+    public function listActivities(\Illuminate\Http\Request $request): LengthAwarePaginator
     {
-
+        return Activity::paginate($this->perPage($request));
     }
 }

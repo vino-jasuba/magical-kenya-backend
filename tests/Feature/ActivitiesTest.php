@@ -101,4 +101,19 @@ class ActivitiesTest extends TestCase
               'title' => $activity->title,
           ]);
     }
+
+    public function testItCanFetchPaginatedListOfActivities()
+    {
+        // setup
+        $this->withoutExceptionHandling();
+        factory(Activity::class, 30)->create();
+
+        // act
+        $per_page = random_int(1, 15);
+        $response = $this->getJson('/api/v1/activities?per_page=' . $per_page);
+
+        // assert
+        $response->assertStatus(200)
+            ->assertJson(['meta' => ['total' => 30, 'per_page' => $per_page]]);
+    }
 }
