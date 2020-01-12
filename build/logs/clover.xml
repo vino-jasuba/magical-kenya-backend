@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1578818690">
-  <project timestamp="1578818690">
+<coverage generated="1578824906">
+  <project timestamp="1578824906">
     <package name="App">
       <file name="/home/vino/Repo/development/php/magical-kenya-backend/app/Activity.php">
         <class name="App\Activity" namespace="App">
           <metrics complexity="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="0" coveredelements="0"/>
         </class>
-        <metrics loc="10" ncloc="10" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="0" coveredelements="0"/>
+        <metrics loc="13" ncloc="13" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="0" coveredelements="0"/>
       </file>
       <file name="/home/vino/Repo/development/php/magical-kenya-backend/app/User.php">
         <class name="App\User" namespace="App">
@@ -22,10 +22,10 @@
         </class>
         <line num="25" type="method" name="schedule" visibility="protected" complexity="1" crap="2" count="0"/>
         <line num="29" type="stmt" count="0"/>
-        <line num="36" type="method" name="commands" visibility="protected" complexity="1" crap="1" count="4"/>
-        <line num="38" type="stmt" count="4"/>
-        <line num="40" type="stmt" count="4"/>
-        <line num="41" type="stmt" count="4"/>
+        <line num="36" type="method" name="commands" visibility="protected" complexity="1" crap="1" count="6"/>
+        <line num="38" type="stmt" count="6"/>
+        <line num="40" type="stmt" count="6"/>
+        <line num="41" type="stmt" count="6"/>
         <metrics loc="42" ncloc="20" classes="1" methods="2" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="4" coveredstatements="3" elements="6" coveredelements="4"/>
       </file>
     </package>
@@ -45,24 +45,27 @@
     <package name="App\Http\Controllers">
       <file name="/home/vino/Repo/development/php/magical-kenya-backend/app/Http/Controllers/ActivityController.php">
         <class name="App\Http\Controllers\ActivityController" namespace="App\Http\Controllers">
-          <metrics complexity="6" methods="6" coveredmethods="3" conditionals="0" coveredconditionals="0" statements="9" coveredstatements="6" elements="15" coveredelements="9"/>
+          <metrics complexity="6" methods="6" coveredmethods="5" conditionals="0" coveredconditionals="0" statements="12" coveredstatements="11" elements="18" coveredelements="16"/>
         </class>
-        <line num="16" type="method" name="__construct" visibility="public" complexity="1" crap="1" count="4"/>
-        <line num="18" type="stmt" count="4"/>
-        <line num="19" type="stmt" count="4"/>
-        <line num="25" type="method" name="index" visibility="public" complexity="1" crap="2" count="0"/>
-        <line num="28" type="stmt" count="0"/>
-        <line num="36" type="method" name="store" visibility="public" complexity="1" crap="1" count="1"/>
-        <line num="38" type="stmt" count="1"/>
-        <line num="40" type="stmt" count="1"/>
-        <line num="49" type="method" name="show" visibility="public" complexity="1" crap="2" count="0"/>
-        <line num="51" type="stmt" count="0"/>
-        <line num="61" type="method" name="update" visibility="public" complexity="1" crap="1" count="1"/>
-        <line num="63" type="stmt" count="1"/>
-        <line num="65" type="stmt" count="1"/>
-        <line num="74" type="method" name="destroy" visibility="public" complexity="1" crap="2" count="0"/>
-        <line num="77" type="stmt" count="0"/>
-        <metrics loc="78" ncloc="44" classes="1" methods="6" coveredmethods="3" conditionals="0" coveredconditionals="0" statements="9" coveredstatements="6" elements="15" coveredelements="9"/>
+        <line num="17" type="method" name="__construct" visibility="public" complexity="1" crap="1" count="6"/>
+        <line num="19" type="stmt" count="6"/>
+        <line num="20" type="stmt" count="6"/>
+        <line num="21" type="stmt" count="6"/>
+        <line num="27" type="method" name="index" visibility="public" complexity="1" crap="1" count="1"/>
+        <line num="29" type="stmt" count="1"/>
+        <line num="31" type="stmt" count="1"/>
+        <line num="40" type="method" name="store" visibility="public" complexity="1" crap="1" count="1"/>
+        <line num="42" type="stmt" count="1"/>
+        <line num="44" type="stmt" count="1"/>
+        <line num="53" type="method" name="show" visibility="public" complexity="1" crap="2" count="0"/>
+        <line num="55" type="stmt" count="0"/>
+        <line num="65" type="method" name="update" visibility="public" complexity="1" crap="1" count="1"/>
+        <line num="67" type="stmt" count="1"/>
+        <line num="69" type="stmt" count="1"/>
+        <line num="78" type="method" name="destroy" visibility="public" complexity="1" crap="1" count="1"/>
+        <line num="80" type="stmt" count="1"/>
+        <line num="82" type="stmt" count="1"/>
+        <metrics loc="84" ncloc="54" classes="1" methods="6" coveredmethods="5" conditionals="0" coveredconditionals="0" statements="12" coveredstatements="11" elements="18" coveredelements="16"/>
       </file>
       <file name="/home/vino/Repo/development/php/magical-kenya-backend/app/Http/Controllers/Controller.php">
         <class name="App\Http\Controllers\Controller" namespace="App\Http\Controllers">
@@ -194,19 +197,20 @@
     <package name="App\Http\Repositories">
       <file name="/home/vino/Repo/development/php/magical-kenya-backend/app/Http/Repositories/ActivityRepository.php">
         <class name="App\Http\Repositories\ActivityRepository" namespace="App\Http\Repositories">
-          <metrics complexity="4" methods="4" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="6" coveredstatements="4" elements="10" coveredelements="6"/>
+          <metrics complexity="4" methods="4" coveredmethods="4" conditionals="0" coveredconditionals="0" statements="7" coveredstatements="7" elements="11" coveredelements="11"/>
         </class>
-        <line num="10" type="method" name="createActivity" visibility="public" complexity="1" crap="1" count="1"/>
-        <line num="12" type="stmt" count="1"/>
-        <line num="15" type="method" name="updateActivity" visibility="public" complexity="1" crap="1" count="1"/>
-        <line num="17" type="stmt" count="1"/>
-        <line num="18" type="stmt" count="1"/>
-        <line num="19" type="stmt" count="1"/>
-        <line num="22" type="method" name="deleteActivity" visibility="public" complexity="1" crap="2" count="0"/>
-        <line num="25" type="stmt" count="0"/>
-        <line num="27" type="method" name="listActivities" visibility="public" complexity="1" crap="2" count="0"/>
-        <line num="30" type="stmt" count="0"/>
-        <metrics loc="31" ncloc="31" classes="1" methods="4" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="6" coveredstatements="4" elements="10" coveredelements="6"/>
+        <line num="14" type="method" name="createActivity" visibility="public" complexity="1" crap="1" count="1"/>
+        <line num="16" type="stmt" count="1"/>
+        <line num="19" type="method" name="updateActivity" visibility="public" complexity="1" crap="1" count="1"/>
+        <line num="21" type="stmt" count="1"/>
+        <line num="22" type="stmt" count="1"/>
+        <line num="23" type="stmt" count="1"/>
+        <line num="26" type="method" name="deleteActivity" visibility="public" complexity="1" crap="1" count="1"/>
+        <line num="28" type="stmt" count="1"/>
+        <line num="29" type="stmt" count="1"/>
+        <line num="31" type="method" name="listActivities" visibility="public" complexity="1" crap="1" count="1"/>
+        <line num="33" type="stmt" count="1"/>
+        <metrics loc="35" ncloc="35" classes="1" methods="4" coveredmethods="4" conditionals="0" coveredconditionals="0" statements="7" coveredstatements="7" elements="11" coveredelements="11"/>
       </file>
     </package>
     <package name="App\Http\Requests">
@@ -240,33 +244,47 @@
         <class name="App\Http\Resources\ActivityResource" namespace="App\Http\Resources">
           <metrics complexity="1" methods="1" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="1" coveredstatements="1" elements="2" coveredelements="2"/>
         </class>
-        <line num="15" type="method" name="toArray" visibility="public" complexity="1" crap="1" count="2"/>
-        <line num="17" type="stmt" count="2"/>
+        <line num="15" type="method" name="toArray" visibility="public" complexity="1" crap="1" count="3"/>
+        <line num="17" type="stmt" count="3"/>
         <metrics loc="19" ncloc="13" classes="1" methods="1" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="1" coveredstatements="1" elements="2" coveredelements="2"/>
       </file>
     </package>
     <file name="/home/vino/Repo/development/php/magical-kenya-backend/app/Http/Services/ActivityRepositoryService.php">
-      <metrics loc="44" ncloc="19" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="0" coveredelements="0"/>
+      <metrics loc="44" ncloc="20" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="0" coveredelements="0"/>
     </file>
+    <package name="App\MagicalKenya\Traits">
+      <file name="/home/vino/Repo/development/php/magical-kenya-backend/app/MagicalKenya/Traits/PaginatorLength.php">
+        <class name="PaginatorLength" namespace="App\MagicalKenya\Traits">
+          <metrics complexity="2" methods="1" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="5" coveredstatements="5" elements="6" coveredelements="6"/>
+        </class>
+        <line num="9" type="method" name="perPage" visibility="public" complexity="2" crap="2" count="1"/>
+        <line num="11" type="stmt" count="1"/>
+        <line num="12" type="stmt" count="1"/>
+        <line num="14" type="stmt" count="1"/>
+        <line num="15" type="stmt" count="1"/>
+        <line num="18" type="stmt" count="1"/>
+        <metrics loc="20" ncloc="20" classes="1" methods="1" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="5" coveredstatements="5" elements="6" coveredelements="6"/>
+      </file>
+    </package>
     <package name="App\Providers">
       <file name="/home/vino/Repo/development/php/magical-kenya-backend/app/Providers/AppServiceProvider.php">
         <class name="App\Providers\AppServiceProvider" namespace="App\Providers">
           <metrics complexity="2" methods="2" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="3" coveredstatements="3" elements="5" coveredelements="5"/>
         </class>
-        <line num="17" type="method" name="register" visibility="public" complexity="1" crap="1" count="4"/>
-        <line num="19" type="stmt" count="4"/>
-        <line num="20" type="stmt" count="4"/>
-        <line num="27" type="method" name="boot" visibility="public" complexity="1" crap="1" count="4"/>
-        <line num="30" type="stmt" count="4"/>
+        <line num="17" type="method" name="register" visibility="public" complexity="1" crap="1" count="6"/>
+        <line num="19" type="stmt" count="6"/>
+        <line num="20" type="stmt" count="6"/>
+        <line num="27" type="method" name="boot" visibility="public" complexity="1" crap="1" count="6"/>
+        <line num="30" type="stmt" count="6"/>
         <metrics loc="31" ncloc="19" classes="1" methods="2" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="3" coveredstatements="3" elements="5" coveredelements="5"/>
       </file>
       <file name="/home/vino/Repo/development/php/magical-kenya-backend/app/Providers/AuthServiceProvider.php">
         <class name="App\Providers\AuthServiceProvider" namespace="App\Providers">
           <metrics complexity="1" methods="1" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="2" coveredstatements="2" elements="3" coveredelements="3"/>
         </class>
-        <line num="24" type="method" name="boot" visibility="public" complexity="1" crap="1" count="4"/>
-        <line num="26" type="stmt" count="4"/>
-        <line num="29" type="stmt" count="4"/>
+        <line num="24" type="method" name="boot" visibility="public" complexity="1" crap="1" count="6"/>
+        <line num="26" type="stmt" count="6"/>
+        <line num="29" type="stmt" count="6"/>
         <metrics loc="30" ncloc="16" classes="1" methods="1" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="2" coveredstatements="2" elements="3" coveredelements="3"/>
       </file>
       <file name="/home/vino/Repo/development/php/magical-kenya-backend/app/Providers/BroadcastServiceProvider.php">
@@ -283,36 +301,36 @@
         <class name="App\Providers\EventServiceProvider" namespace="App\Providers">
           <metrics complexity="1" methods="1" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="2" coveredstatements="2" elements="3" coveredelements="3"/>
         </class>
-        <line num="28" type="method" name="boot" visibility="public" complexity="1" crap="1" count="4"/>
-        <line num="30" type="stmt" count="4"/>
-        <line num="33" type="stmt" count="4"/>
+        <line num="28" type="method" name="boot" visibility="public" complexity="1" crap="1" count="6"/>
+        <line num="30" type="stmt" count="6"/>
+        <line num="33" type="stmt" count="6"/>
         <metrics loc="34" ncloc="22" classes="1" methods="1" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="2" coveredstatements="2" elements="3" coveredelements="3"/>
       </file>
       <file name="/home/vino/Repo/development/php/magical-kenya-backend/app/Providers/RouteServiceProvider.php">
         <class name="App\Providers\RouteServiceProvider" namespace="App\Providers">
           <metrics complexity="4" methods="4" coveredmethods="4" conditionals="0" coveredconditionals="0" statements="14" coveredstatements="14" elements="18" coveredelements="18"/>
         </class>
-        <line num="31" type="method" name="boot" visibility="public" complexity="1" crap="1" count="4"/>
-        <line num="35" type="stmt" count="4"/>
-        <line num="36" type="stmt" count="4"/>
-        <line num="43" type="method" name="map" visibility="public" complexity="1" crap="1" count="4"/>
-        <line num="45" type="stmt" count="4"/>
-        <line num="47" type="stmt" count="4"/>
-        <line num="50" type="stmt" count="4"/>
-        <line num="59" type="method" name="mapWebRoutes" visibility="protected" complexity="1" crap="1" count="4"/>
-        <line num="61" type="stmt" count="4"/>
-        <line num="62" type="stmt" count="4"/>
-        <line num="63" type="stmt" count="4"/>
-        <line num="64" type="stmt" count="4"/>
-        <line num="73" type="method" name="mapApiV1Routes" visibility="protected" complexity="1" crap="1" count="4"/>
-        <line num="75" type="stmt" count="4"/>
-        <line num="76" type="stmt" count="4"/>
-        <line num="77" type="stmt" count="4"/>
-        <line num="78" type="stmt" count="4"/>
-        <line num="79" type="stmt" count="4"/>
+        <line num="31" type="method" name="boot" visibility="public" complexity="1" crap="1" count="6"/>
+        <line num="35" type="stmt" count="6"/>
+        <line num="36" type="stmt" count="6"/>
+        <line num="43" type="method" name="map" visibility="public" complexity="1" crap="1" count="6"/>
+        <line num="45" type="stmt" count="6"/>
+        <line num="47" type="stmt" count="6"/>
+        <line num="50" type="stmt" count="6"/>
+        <line num="59" type="method" name="mapWebRoutes" visibility="protected" complexity="1" crap="1" count="6"/>
+        <line num="61" type="stmt" count="6"/>
+        <line num="62" type="stmt" count="6"/>
+        <line num="63" type="stmt" count="6"/>
+        <line num="64" type="stmt" count="6"/>
+        <line num="73" type="method" name="mapApiV1Routes" visibility="protected" complexity="1" crap="1" count="6"/>
+        <line num="75" type="stmt" count="6"/>
+        <line num="76" type="stmt" count="6"/>
+        <line num="77" type="stmt" count="6"/>
+        <line num="78" type="stmt" count="6"/>
+        <line num="79" type="stmt" count="6"/>
         <metrics loc="80" ncloc="40" classes="1" methods="4" coveredmethods="4" conditionals="0" coveredconditionals="0" statements="14" coveredstatements="14" elements="18" coveredelements="18"/>
       </file>
     </package>
-    <metrics files="30" loc="1069" ncloc="639" classes="18" methods="36" coveredmethods="21" conditionals="0" coveredconditionals="0" statements="77" coveredstatements="48" elements="113" coveredelements="69"/>
+    <metrics files="31" loc="1102" ncloc="677" classes="19" methods="37" coveredmethods="26" conditionals="0" coveredconditionals="0" statements="86" coveredstatements="61" elements="123" coveredelements="87"/>
   </project>
 </coverage>

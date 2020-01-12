@@ -17,15 +17,18 @@ class ActivityController extends Controller
     public function __construct(ActivityRepositoryService $activityRepository)
     {
         $this->activityRepository = $activityRepository;
+        $this->middleware('auth:api')->except(['index', 'show']);
     }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $activitiesCollection = $this->activityRepository->listActivities($request);
+
+        return ActivityResource::collection($activitiesCollection);
     }
 
     /**

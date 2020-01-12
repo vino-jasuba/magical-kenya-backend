@@ -3,6 +3,7 @@
 namespace App\Http\Services;
 
 use App\Activity;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 
@@ -39,5 +40,5 @@ interface ActivityRepositoryService
      *
      * @return Collection
      */
-    public function listActivities(Request $request) : Collection;
+    public function listActivities(Request $request) : LengthAwarePaginator;
 }

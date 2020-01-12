@@ -17,6 +17,4 @@ Route::middleware('auth:api', function (Request $request) {
     return $request->user();
 });
 
-Route::middleware('auth:api')->group(function () {
-    Route::apiResource('activities', 'ActivityController');
-});
+Route::apiResource('activities', 'ActivityController');
