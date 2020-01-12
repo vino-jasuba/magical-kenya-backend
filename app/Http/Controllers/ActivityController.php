@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Activity;
 use App\Http\Requests\CreateActivityRequest;
+use App\Http\Requests\UpdateActivityRequest;
 use App\Http\Resources\ActivityResource;
 use App\Http\Services\ActivityRepositoryService;
 use Illuminate\Http\Request;
@@ -57,9 +58,11 @@ class ActivityController extends Controller
      * @param  \App\Activity  $activity
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Activity $activity)
+    public function update(UpdateActivityRequest $request, Activity $activity)
     {
-        //
+        $updatedActivity = $this->activityRepository->updateActivity($request, $activity);
+
+        return new ActivityResource($updatedActivity);
     }
 
     /**
