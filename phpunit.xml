@@ -10,6 +10,12 @@
          convertWarningsToExceptions="true"
          processIsolation="false"
          stopOnFailure="false">
+    <logging>
+        <log type="coverage-html"
+             target="./.report"
+             lowUpperBound="50"
+             highLowerBound="80" />
+    </logging>
     <testsuites>
         <testsuite name="Unit">
             <directory suffix="Test.php">./tests/Unit</directory>
