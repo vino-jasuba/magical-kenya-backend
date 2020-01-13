@@ -11,7 +11,7 @@ trait PaginatorLength
         $maxPerPage = intval(config('app.per_page'));
         $perPage = $request->per_page ?? $maxPerPage;
 
-        if ($perPage > $maxPerPage) {
+        if ($perPage > $maxPerPage || $perPage < 1) {
             $perPage = $maxPerPage;
         }
 
