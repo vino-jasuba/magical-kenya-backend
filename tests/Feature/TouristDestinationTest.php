@@ -65,18 +65,18 @@ class TouristDestinationTest extends TestCase
     }
 
 
-    // public function testItFetchesPaginatedListOfTouristDestinations()
-    // {
-    //      // setup
-    //      $itemCount = random_int(10, 30);
-    //      factory(Location::class, $itemCount)->create();
+    public function testItFetchesPaginatedListOfTouristDestinations()
+    {
+         // setup
+         $itemCount = random_int(10, 30);
+         factory(Location::class, $itemCount)->create();
 
-    //      // act
-    //      $per_page = random_int(1, 15);
-    //      $response = $this->getJson('/api/v1/locations?per_page=' . $per_page);
+         // act
+         $per_page = random_int(1, 15);
+         $response = $this->getJson('/api/v1/locations?per_page=' . $per_page);
 
-    //      // assert
-    //      $response->assertStatus(200)
-    //          ->assertJson(['meta' => ['total' => $itemCount, 'per_page' => $per_page]]);
-    // }
+         // assert
+         $response->assertStatus(200)
+             ->assertJson(['meta' => ['total' => $itemCount, 'per_page' => $per_page]]);
+    }
 }

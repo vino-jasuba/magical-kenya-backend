@@ -4,9 +4,12 @@ namespace App\Http\Repositories;
 
 use App\Http\Services\LocationRepositoryInterface;
 use App\Location;
+use App\MagicalKenya\Traits\PaginatorLength;
 
 class LocationRepository implements LocationRepositoryInterface
 {
+    use PaginatorLength;
+
     public function createTouristDestination(\Illuminate\Http\Request $request): \App\Location
     {
         $location = Location::create($request->input());
@@ -23,6 +26,6 @@ class LocationRepository implements LocationRepositoryInterface
 
     public function getAllTouristDestinations(\Illuminate\Http\Request $request): \Illuminate\Contracts\Pagination\LengthAwarePaginator
     {
-        // todo
+        return Location::paginate($this->perPage($request));
     }
 }
