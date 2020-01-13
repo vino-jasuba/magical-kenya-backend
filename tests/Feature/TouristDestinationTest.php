@@ -79,4 +79,20 @@ class TouristDestinationTest extends TestCase
          $response->assertStatus(200)
              ->assertJson(['meta' => ['total' => $itemCount, 'per_page' => $per_page]]);
     }
+
+    public function testItSoftDeletesTouristDestinations()
+    {
+        // setup
+        $user = factory(User::class)->create();
+        $location = factory(Location::class)->create();
+
+        // act
+        $response = $this->actingAs($user)->deleteJson('/api/v1/locations/' . $location->id);
+
+        // assert
+        $response->assertStatus(204);
+        $this->assertSoftDeleted((new Location)->getTable(), [
+            'name' => $location->name,
+        ]);
+    }
 }

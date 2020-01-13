@@ -25,6 +25,19 @@ interface LocationRepositoryInterface
      */
     public function updateTouristDestination(Request $request, Location $location) : Location;
 
-
+    /**
+     * Fetch List of all available destinations
+     *
+     * @param Request $request
+     * @return LengthAwarePaginator
+     */
     public function getAllTouristDestinations(Request $request) : LengthAwarePaginator;
+
+    /**
+     * Soft Delete Destination
+     *
+     * @param Location $location
+     * @return void
+     */
+    public function removeLocationFromListing(Location $location);
 }

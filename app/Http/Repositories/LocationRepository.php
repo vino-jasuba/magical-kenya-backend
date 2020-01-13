@@ -28,4 +28,9 @@ class LocationRepository implements LocationRepositoryInterface
     {
         return Location::paginate($this->perPage($request));
     }
+
+    public function removeLocationFromListing(\App\Location $location)
+    {
+        $location->delete();
+    }
 }

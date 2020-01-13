@@ -8,6 +8,7 @@ use App\Http\Resources\LocationResource;
 use App\Http\Services\LocationRepositoryInterface;
 use App\Location;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class LocationController extends Controller
 {
@@ -78,6 +79,8 @@ class LocationController extends Controller
      */
     public function destroy(Location $location)
     {
-        //
+        $this->locationRepository->removeLocationFromListing($location);
+
+        return response(null, Response::HTTP_NO_CONTENT);
     }
 }
