@@ -88,7 +88,6 @@ class ActivitiesTest extends TestCase
     public function testCanSoftDeleteActivityRecords()
     {
           // setup
-          $this->withoutExceptionHandling();
           $user = factory(User::class)->create();
           $activity = factory(Activity::class)->create();
 
@@ -105,7 +104,6 @@ class ActivitiesTest extends TestCase
     public function testItCanFetchPaginatedListOfActivities()
     {
         // setup
-        $this->withoutExceptionHandling();
         factory(Activity::class, 30)->create();
 
         // act

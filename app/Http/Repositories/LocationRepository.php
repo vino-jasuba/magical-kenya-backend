@@ -13,4 +13,16 @@ class LocationRepository implements LocationRepositoryInterface
 
         return $location;
     }
+
+    public function updateTouristDestination(\Illuminate\Http\Request $request, \App\Location $location): \App\Location
+    {
+        $location->fill($request->input());
+        $location->save();
+        return $location;
+    }
+
+    public function getAllTouristDestinations(\Illuminate\Http\Request $request): \Illuminate\Contracts\Pagination\LengthAwarePaginator
+    {
+        // todo
+    }
 }
