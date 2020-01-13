@@ -22,6 +22,7 @@ class CreateLocationsTable extends Migration
             $table->string('icon');
             $table->decimal('lat', 10, 6);
             $table->decimal('lng', 10, 6);
+            $table->softDeletes();
             $table->timestamps();
         });
     }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Location;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CreateLocationRequest extends FormRequest
@@ -24,7 +25,7 @@ class CreateLocationRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required', 'string'],
+            'name' => ['required', 'string', 'unique:' . (new Location)->getTable()],
             'description' => ['required', 'string'],
             'icon' => ['required', 'string'],
             'catchphrase' => ['required', 'string'],
