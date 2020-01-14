@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateExperienceRequest;
+use App\Http\Requests\UpdateExperienceRequest;
 use App\Http\Resources\TouristExperienceResource;
 use App\Http\Services\TouristExperienceRepositoryInterface;
 use App\TouristExperience;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class TouristExperienceController extends Controller
 {
@@ -36,7 +39,7 @@ class TouristExperienceController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateExperienceRequest $request)
     {
         $experience = $this->experienceRepository->createTouristExperience($request);
         return new TouristExperienceResource($experience);
@@ -45,24 +48,26 @@ class TouristExperienceController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\TouristExperience  $touristExperience
+     * @param  \App\TouristExperience  $experience
      * @return \Illuminate\Http\Response
      */
-    public function show(TouristExperience $touristExperience)
+    public function show(TouristExperience $experience)
     {
-        //
+        return new TouristExperienceResource($experience);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\TouristExperience  $touristExperience
+     * @param  \App\TouristExperience  $experience
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, TouristExperience $touristExperience)
+    public function update(UpdateExperienceRequest $request, TouristExperience $experience)
     {
-        //
+        $updatedExperience = $this->experienceRepository->updateTouristExperience($request, $experience);
+
+        return new TouristExperienceResource($updatedExperience);
     }
 
     /**
@@ -71,8 +76,10 @@ class TouristExperienceController extends Controller
      * @param  \App\TouristExperience  $touristExperience
      * @return \Illuminate\Http\Response
      */
-    public function destroy(TouristExperience $touristExperience)
+    public function destroy(TouristExperience $experience)
     {
-        //
+        $this->experienceRepository->removeTouristExperience($experience);
+
+        return response(null, Response::HTTP_NO_CONTENT);
     }
 }

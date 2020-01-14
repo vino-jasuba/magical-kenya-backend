@@ -45,7 +45,9 @@ class TouristExperienceRepository implements TouristExperienceRepositoryInterfac
      */
     public function updateTouristExperience(Request $request, TouristExperience $touristExperience): TouristExperience
     {
-        // TODO: Implement updateTouristExperience() method.
+        $touristExperience->fill($request->input());
+        $touristExperience->save();
+        return $touristExperience;
     }
 
     /**
@@ -53,6 +55,6 @@ class TouristExperienceRepository implements TouristExperienceRepositoryInterfac
      */
     public function removeTouristExperience(TouristExperience $touristExperience)
     {
-        // TODO: Implement removeTouristExperience() method.
+        $touristExperience->delete();
     }
 }
