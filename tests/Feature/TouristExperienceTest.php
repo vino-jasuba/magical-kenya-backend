@@ -19,7 +19,6 @@ class TouristExperienceTest extends TestCase
     public function testItCreatesTouristExperiences()
     {
         // setup
-        $this->withoutExceptionHandling();
         $user = factory(User::class)->create();
         $activity = factory(Activity::class)->create([
             'title' => 'Cycling'
@@ -42,5 +41,77 @@ class TouristExperienceTest extends TestCase
         $this->assertDatabaseHas((new TouristExperience)->getTable(), [
             'description' => 'Experience Bliss'
         ]);
+    }
+
+    public function testItCanFetchExperiencesByAppliedFilterQuery()
+    {
+        $this->withoutExceptionHandling();
+        // setup
+        // user
+        $user = factory(User::class)->create();
+
+        // activities
+        $cycling = factory(Activity::class)->create(['title' => 'Cycling']);
+        $culturalFest = factory(Activity::class)->create(['title' => 'Cultural Festivals']);
+        $beaches = factory(Activity::class)->create(['title' => 'Beaches']);
+        $golf = factory(Activity::class)->create(['title' => 'Golf']);
+
+        // locations
+        $kilimambogo = factory(Location::class)->create(['name' => 'Kilimambogo']);
+        $agadir = factory(Location::class)->create(['name' => 'Agadir']);
+        $casablanca = factory(Location::class)->create(['name' => 'Casablanca']);
+        $marakech = factory(Location::class)->create(['name' => 'Marakech']);
+
+        // experiences
+        // cycling
+        factory(TouristExperience::class)->create([
+            'location_id' => $kilimambogo,
+            'activity_id' => $cycling,
+        ]);
+
+        factory(TouristExperience::class)->create([
+            'location_id' => $agadir,
+            'activity_id' => $cycling,
+        ]);
+
+        // cultural festivals
+        factory(TouristExperience::class)->create([
+            'location_id' => $casablanca,
+            'activity_id' => $culturalFest,
+        ]);
+
+        // beaches
+        factory(TouristExperience::class)->create([
+            'location_id' => $casablanca,
+            'activity_id' => $beaches,
+        ]);
+
+        // golf
+        factory(TouristExperience::class)->create([
+            'location_id' => $agadir,
+            'activity_id' => $golf,
+        ]);
+
+        factory(TouristExperience::class)->create([
+            'location_id' => $casablanca,
+            'activity_id' => $golf,
+        ]);
+
+        factory(TouristExperience::class)->create([
+            'location_id' => $marakech,
+            'activity_id' => $golf,
+        ]);
+
+        // act
+        $response = $this->getJson('/api/v1/experiences');
+        $locationFilterResponse = $this->getJson('/api/v1/experiences?location=Agadir');
+        $activityFilterResponse = $this->getJson('/api/v1/experiences?activity=Golf');
+        $combinedFilters = $this->getJson('/api/v1/experiences?activity=Golf&location=Casablanca');
+
+        // assert
+        $response->assertStatus(200)->assertJson(['meta' => ['total' => 7]]);
+        $locationFilterResponse->assertStatus(200)->assertJson(['meta' => ['total' => 2]]);
+        $activityFilterResponse->assertStatus(200)->assertJson(['meta' => ['total' => 3]]);
+        $combinedFilters->assertStatus(200)->assertJson(['meta' => ['total' => 1]]);
     }
 }

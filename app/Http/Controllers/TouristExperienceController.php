@@ -22,9 +22,11 @@ class TouristExperienceController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $experiencesCollection = $this->experienceRepository->getAllTouristExperiences($request);
+
+        return TouristExperienceResource::collection($experiencesCollection);
     }
 
 
