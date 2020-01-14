@@ -10,4 +10,9 @@ class Location extends Model
     use SoftDeletes;
 
     protected $guarded = [];
+
+    public function experiences()
+    {
+        return $this->hasMany(TouristExperience::class);
+    }
 }
