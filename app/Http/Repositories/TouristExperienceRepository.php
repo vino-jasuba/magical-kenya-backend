@@ -55,6 +55,6 @@ class TouristExperienceRepository implements TouristExperienceRepositoryInterfac
      */
     public function removeTouristExperience(TouristExperience $touristExperience)
     {
-        // TODO: Implement removeTouristExperience() method.
+        $touristExperience->delete();
     }
 }

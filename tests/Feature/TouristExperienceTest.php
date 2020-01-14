@@ -119,7 +119,6 @@ class TouristExperienceTest extends TestCase
     public function testAuthenticatedUsersCanUpdateExperienceDetails()
     {
         // setup
-        $this->withoutExceptionHandling();
         $user = factory(User::class)->create();
         $experience = factory(TouristExperience::class)->create();
 
@@ -134,5 +133,22 @@ class TouristExperienceTest extends TestCase
         $this->assertDatabaseHas((new TouristExperience)->getTable(), [
             'description' => 'Experience the joy of golf on the sandy beaches of Marakech'
         ]);
+    }
+
+
+    public function testCanSoftDeleteTouristExperienceRecords()
+    {
+          // setup
+          $user = factory(User::class)->create();
+          $experience = factory(TouristExperience::class)->create();
+
+          // act
+          $response = $this->actingAs($user)->deleteJson('/api/v1/experiences/' . $experience->id);
+
+          // assert
+          $response->assertStatus(204);
+          $this->assertSoftDeleted((new TouristExperience)->getTable(), [
+              'description' => $experience->description,
+          ]);
     }
 }
