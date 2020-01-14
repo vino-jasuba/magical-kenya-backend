@@ -114,4 +114,25 @@ class TouristExperienceTest extends TestCase
         $activityFilterResponse->assertStatus(200)->assertJson(['meta' => ['total' => 3]]);
         $combinedFilters->assertStatus(200)->assertJson(['meta' => ['total' => 1]]);
     }
+
+
+    public function testAuthenticatedUsersCanUpdateExperienceDetails()
+    {
+        // setup
+        $this->withoutExceptionHandling();
+        $user = factory(User::class)->create();
+        $experience = factory(TouristExperience::class)->create();
+
+        // act
+        $response = $this->actingAs($user)->patchJson('/api/v1/experiences/' . $experience->id, [
+            'description' => 'Experience the joy of golf on the sandy beaches of Marakech',
+        ]);
+
+        // assert
+        $response->assertStatus(200)
+            ->assertSee('Experience the joy of golf on the sandy beaches of Marakech');
+        $this->assertDatabaseHas((new TouristExperience)->getTable(), [
+            'description' => 'Experience the joy of golf on the sandy beaches of Marakech'
+        ]);
+    }
 }

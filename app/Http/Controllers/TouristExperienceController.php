@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateExperienceRequest;
+use App\Http\Requests\UpdateExperienceRequest;
 use App\Http\Resources\TouristExperienceResource;
 use App\Http\Services\TouristExperienceRepositoryInterface;
 use App\TouristExperience;
@@ -36,7 +38,7 @@ class TouristExperienceController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateExperienceRequest $request)
     {
         $experience = $this->experienceRepository->createTouristExperience($request);
         return new TouristExperienceResource($experience);
@@ -50,7 +52,7 @@ class TouristExperienceController extends Controller
      */
     public function show(TouristExperience $touristExperience)
     {
-        //
+        return new TouristExperienceResource($touristExperience);
     }
 
     /**
@@ -60,9 +62,11 @@ class TouristExperienceController extends Controller
      * @param  \App\TouristExperience  $touristExperience
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, TouristExperience $touristExperience)
+    public function update(UpdateExperienceRequest $request, TouristExperience $experience)
     {
-        //
+        $updatedExperience = $this->experienceRepository->updateTouristExperience($request, $experience);
+
+        return new TouristExperienceResource($updatedExperience);
     }
 
     /**

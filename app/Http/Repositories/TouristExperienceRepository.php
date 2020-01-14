@@ -45,7 +45,9 @@ class TouristExperienceRepository implements TouristExperienceRepositoryInterfac
      */
     public function updateTouristExperience(Request $request, TouristExperience $touristExperience): TouristExperience
     {
-        // TODO: Implement updateTouristExperience() method.
+        $touristExperience->fill($request->input());
+        $touristExperience->save();
+        return $touristExperience;
     }
 
     /**
