@@ -20,9 +20,10 @@ interface TouristExperienceRepositoryInterface
      * Fetch paginated and filtered list of tourist experiences
      * The filters include by location or activity type
      *
+     * @param Request $request
      * @return LengthAwarePaginator
      */
-    public function getAllTouristExperiences() : LengthAwarePaginator;
+    public function getAllTouristExperiences(Request $request) : LengthAwarePaginator;
 
     /**
      * Update details of a tourist experience

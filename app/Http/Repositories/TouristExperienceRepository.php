@@ -3,12 +3,17 @@
 namespace App\Http\Repositories;
 
 use App\Http\Services\TouristExperienceRepositoryInterface;
+use App\MagicalKenya\Filters\ActivityFilter;
+use App\MagicalKenya\Filters\LocationFilter;
+use App\MagicalKenya\Traits\PaginatorLength;
 use App\TouristExperience;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Http\Request;
+use Illuminate\Pipeline\Pipeline;
 
 class TouristExperienceRepository implements TouristExperienceRepositoryInterface
 {
+    use PaginatorLength;
 
     /**
      * @inheritDoc
@@ -21,9 +26,18 @@ class TouristExperienceRepository implements TouristExperienceRepositoryInterfac
     /**
      * @inheritDoc
      */
-    public function getAllTouristExperiences(): LengthAwarePaginator
+    public function getAllTouristExperiences(Request $request): LengthAwarePaginator
     {
-        // TODO: Implement getAllTouristExperiences() method.
+        $queryBuilder = TouristExperience::query();
+
+        return app(Pipeline::class)
+            ->send($queryBuilder)
+            ->through([
+                LocationFilter::class,
+                ActivityFilter::class,
+            ])
+            ->thenReturn()
+            ->paginate($this->perPage($request));
     }
 
     /**
