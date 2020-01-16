@@ -6,7 +6,7 @@ use App\Activity;
 use App\Http\Requests\CreateActivityRequest;
 use App\Http\Requests\UpdateActivityRequest;
 use App\Http\Resources\ActivityResource;
-use App\Http\Services\ActivityRepositoryService;
+use App\Http\Contracts\ActivityRepositoryContract;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -14,7 +14,7 @@ class ActivityController extends Controller
 {
     protected $activityRepository;
 
-    public function __construct(ActivityRepositoryService $activityRepository)
+    public function __construct(ActivityRepositoryContract $activityRepository)
     {
         $this->activityRepository = $activityRepository;
         $this->middleware('auth:api')->except(['index', 'show']);

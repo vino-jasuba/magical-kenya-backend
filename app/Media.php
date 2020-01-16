@@ -3,17 +3,14 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Location extends Model
+class Media extends Model
 {
-    use SoftDeletes;
-
     protected $guarded = [];
 
-    public function experiences()
+    public function modelable()
     {
-        return $this->hasMany(TouristExperience::class);
+        return $this->morphTo();
     }
 
     public function media()

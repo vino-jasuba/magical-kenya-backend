@@ -2,7 +2,7 @@
 
 namespace App\Http\Repositories;
 
-use App\Http\Services\TouristExperienceRepositoryInterface;
+use App\Http\Contracts\TouristExperienceRepositoryContract;
 use App\MagicalKenya\Filters\ActivityFilter;
 use App\MagicalKenya\Filters\LocationFilter;
 use App\MagicalKenya\Traits\PaginatorLength;
@@ -11,7 +11,7 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Http\Request;
 use Illuminate\Pipeline\Pipeline;
 
-class TouristExperienceRepository implements TouristExperienceRepositoryInterface
+class TouristExperienceRepository implements TouristExperienceRepositoryContract
 {
     use PaginatorLength;
 

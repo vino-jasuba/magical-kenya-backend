@@ -15,4 +15,9 @@ class Activity extends Model
     {
         return $this->hasMany(TouristExperience::class);
     }
+
+    public function media()
+    {
+        return $this->morphMany(Media::class, 'modelable', 'model_type', 'model_primary_key', 'id');
+    }
 }

@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Services;
+namespace App\Http\Contracts;
 
 use App\Location;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Http\Request;
 
-interface LocationRepositoryInterface
+interface LocationRepositoryContract
 {
     /**
      * Create a new Tourist Destination

@@ -2,11 +2,11 @@
 
 namespace App\Http\Repositories;
 
-use App\Http\Services\LocationRepositoryInterface;
+use App\Http\Contracts\LocationRepositoryContract;
 use App\Location;
 use App\MagicalKenya\Traits\PaginatorLength;
 
-class LocationRepository implements LocationRepositoryInterface
+class LocationRepository implements LocationRepositoryContract
 {
     use PaginatorLength;
 

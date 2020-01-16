@@ -20,3 +20,4 @@ Route::middleware('auth:api', function (Request $request) {
 Route::apiResource('activities', 'ActivityController');
 Route::apiResource('locations', 'LocationController');
 Route::apiResource('experiences', 'TouristExperienceController');
+Route::apiResource('media', 'MediaController')->only(['store', 'update', 'destroy']);
