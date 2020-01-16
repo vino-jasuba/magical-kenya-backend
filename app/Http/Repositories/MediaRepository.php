@@ -53,6 +53,7 @@ class MediaRepository implements InteractsWithMediaContract
      */
     public function deleteFile(Media $media)
     {
-        // TODO: Implement deleteFile() method.
+        Storage::disk('public')->delete($media->file_path);
+        $media->delete();
     }
 }

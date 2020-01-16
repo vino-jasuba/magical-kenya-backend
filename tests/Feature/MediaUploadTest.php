@@ -136,6 +136,33 @@ class MediaUploadTest extends TestCase
         ]);
     }
 
+    public function testDeletingMediaFiles()
+    {
+        // setup
+        Storage::fake('public');
+        $location = factory(Location::class)->create();
+
+        // act
+        // create location media
+        $response = $this->postJson('/api/v1/media', [
+            'files' => [UploadedFile::fake()->create('shiro.png')],
+            'description' => 'experience beauty and glamor with',
+            'use_case' => 'background',
+            'target_key' => $location->id,
+            'target_type' => 'location'
+        ]);
+
+        $this->assertNotEquals([], Storage::disk('public')->allFiles());
+
+        $media = Media::first();
+        $deleteResponse = $this->deleteJson('/api/v1/media/' . $media->id);
+
+        // assert
+        $response->assertStatus(201);
+        $deleteResponse->assertStatus(204);
+        $this->assertEquals([], Storage::disk('public')->allFiles());
+    }
+
     /**
      * Remove the app host and leading forward slash on the fileUrl
      *
