@@ -28,4 +28,13 @@ interface InteractsWithMediaContract
      * @return mixed
      */
     public function deleteFile(Media $media);
+
+    /**
+     * Update media descriptions and use cases
+     *
+     * @param Request $request
+     * @param Media $media
+     * @return Media
+     */
+    public function updateFileMetadata(Request $request, Media $media) : Media;
 }

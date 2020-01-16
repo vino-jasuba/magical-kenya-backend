@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Activity;
 use App\Http\Contracts\InteractsWithMediaContract;
+use App\Http\Requests\MediaUpdateRequest;
 use App\Http\Requests\MediaUploadRequest;
 use App\Http\Resources\FileResource;
 use App\Location;
@@ -43,9 +44,10 @@ class MediaController extends Controller
      * @param  \App\Media  $media
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Media $media)
+    public function update(MediaUpdateRequest $request, Media $medium)
     {
-        //
+        $updatedFile = $this->mediaRepository->updateFileMetadata($request, $medium);
+        return new FileResource($updatedFile);
     }
 
     /**
