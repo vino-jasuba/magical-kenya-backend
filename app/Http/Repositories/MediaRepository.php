@@ -41,8 +41,19 @@ class MediaRepository implements InteractsWithMediaContract
     /**
      * @inheritDoc
      */
+    public function updateFileMetadata(\Illuminate\Http\Request $request, \App\Media $media): \App\Media
+    {
+        $media->fill($request->only(['description', 'use_case']));
+        $media->save();
+        return $media;
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function deleteFile(Media $media)
     {
-        // TODO: Implement deleteFile() method.
+        Storage::disk('public')->delete($media->file_path);
+        $media->delete();
     }
 }

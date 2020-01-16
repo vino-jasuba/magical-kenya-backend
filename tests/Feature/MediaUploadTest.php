@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Activity;
 use App\Location;
+use App\Media;
 use App\TouristExperience;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -106,6 +107,60 @@ class MediaUploadTest extends TestCase
 
         // assert
         $response->assertStatus(422);
+    }
+
+    public function testCanUpdateMediaMetaData()
+    {
+        // setup
+        $this->withoutExceptionHandling();
+        $media = Media::create([
+            'description' => 'original description',
+            'model_type' => 'location',
+            'model_primary_key' => 1,
+            'use_case' => 'carousel',
+            'file_type' => 'image/jpeg',
+            'file_path' => 'path/to/file.jpeg'
+        ]);
+
+        // act
+        $response = $this->patchJson('/api/v1/media/' . $media->id, [
+            'use_case' => 'background',
+            'description' => 'i can change descriptions'
+        ]);
+
+        // assert
+        $response->assertStatus(200);
+        $this->assertDatabaseHas((new Media)->getTable(), [
+            'description' => 'i can change descriptions',
+            'use_case' => 'background'
+        ]);
+    }
+
+    public function testDeletingMediaFiles()
+    {
+        // setup
+        Storage::fake('public');
+        $location = factory(Location::class)->create();
+
+        // act
+        // create location media
+        $response = $this->postJson('/api/v1/media', [
+            'files' => [UploadedFile::fake()->create('shiro.png')],
+            'description' => 'experience beauty and glamor with',
+            'use_case' => 'background',
+            'target_key' => $location->id,
+            'target_type' => 'location'
+        ]);
+
+        $this->assertNotEquals([], Storage::disk('public')->allFiles());
+
+        $media = Media::first();
+        $deleteResponse = $this->deleteJson('/api/v1/media/' . $media->id);
+
+        // assert
+        $response->assertStatus(201);
+        $deleteResponse->assertStatus(204);
+        $this->assertEquals([], Storage::disk('public')->allFiles());
     }
 
     /**
