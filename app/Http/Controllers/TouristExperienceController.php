@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CreateExperienceRequest;
 use App\Http\Requests\UpdateExperienceRequest;
 use App\Http\Resources\TouristExperienceResource;
-use App\Http\Services\TouristExperienceRepositoryInterface;
+use App\Http\Contracts\TouristExperienceRepositoryContract;
 use App\TouristExperience;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -14,7 +14,7 @@ class TouristExperienceController extends Controller
 {
     protected $experienceRepository;
 
-    public function __construct(TouristExperienceRepositoryInterface $experienceRepository)
+    public function __construct(TouristExperienceRepositoryContract $experienceRepository)
     {
         $this->experienceRepository = $experienceRepository;
         $this->middleware('auth:api')->except(['index', 'show']);

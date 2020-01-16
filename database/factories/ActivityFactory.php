@@ -7,7 +7,7 @@ use Faker\Generator as Faker;
 
 $factory->define(Activity::class, function (Faker $faker) {
     return [
-        'title' => $faker->sentence,
+        'title' => $faker->word,
         'description' => $faker->sentence,
         'catchphrase' => $faker->sentence,
     ];

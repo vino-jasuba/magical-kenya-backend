@@ -3,11 +3,11 @@
 namespace App\Http\Repositories;
 
 use App\Activity;
-use App\Http\Services\ActivityRepositoryService;
+use App\Http\Contracts\ActivityRepositoryContract;
 use App\MagicalKenya\Traits\PaginatorLength;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
-class ActivityRepository implements ActivityRepositoryService
+class ActivityRepository implements ActivityRepositoryContract
 {
     use PaginatorLength;
 

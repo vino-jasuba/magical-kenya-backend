@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Services;
+namespace App\Http\Contracts;
 
 use App\TouristExperience;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Http\Request;
 
-interface TouristExperienceRepositoryInterface
+interface TouristExperienceRepositoryContract
 {
     /**
      * Create new Tourist experience

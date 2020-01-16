@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Services;
+namespace App\Http\Contracts;
 
 use App\Activity;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 
-interface ActivityRepositoryService
+interface ActivityRepositoryContract
 {
     /**
      * Create a new activity

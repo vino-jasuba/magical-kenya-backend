@@ -5,9 +5,11 @@ namespace App\Providers;
 use App\Http\Repositories\ActivityRepository;
 use App\Http\Repositories\LocationRepository;
 use App\Http\Repositories\TouristExperienceRepository;
-use App\Http\Services\ActivityRepositoryService;
-use App\Http\Services\LocationRepositoryInterface;
-use App\Http\Services\TouristExperienceRepositoryInterface;
+use App\Http\Contracts\ActivityRepositoryContract;
+use App\Http\Contracts\InteractsWithMediaContract;
+use App\Http\Contracts\LocationRepositoryContract;
+use App\Http\Contracts\TouristExperienceRepositoryContract;
+use App\Http\Repositories\MediaRepository;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\ServiceProvider;
 
@@ -20,9 +22,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        App::bind(ActivityRepositoryService::class, ActivityRepository::class);
-        App::bind(LocationRepositoryInterface::class, LocationRepository::class);
-        App::bind(TouristExperienceRepositoryInterface::class, TouristExperienceRepository::class);
+        App::bind(ActivityRepositoryContract::class, ActivityRepository::class);
+        App::bind(LocationRepositoryContract::class, LocationRepository::class);
+        App::bind(TouristExperienceRepositoryContract::class, TouristExperienceRepository::class);
+        App::bind(InteractsWithMediaContract::class, MediaRepository::class);
     }
 
     /**
