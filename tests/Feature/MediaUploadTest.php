@@ -165,7 +165,7 @@ class MediaUploadTest extends TestCase
     }
 
 
-    public function testItFetchesModelsWithAssociatedMediaFiles()
+    public function testItFetchesLocationsWithAssociatedMediaFiles()
     {
         // setup
         $user = factory(User::class)->create();
@@ -183,6 +183,26 @@ class MediaUploadTest extends TestCase
         $response->assertStatus(200);
         $this->assertEquals($location->media()->useCase('carousel')->count(), sizeof($response->json('data.carousel')));
         $this->assertEquals($location->media()->useCase('background')->count(), sizeof($response->json('data.background')));
+    }
+
+    public function testItFetchesActivitiesWithAssociatedMediaFiles()
+    {
+        // setup
+        $user = factory(User::class)->create();
+        $activity = factory(Activity::class)->create();
+        $media = factory(Media::class, 10)->make();
+
+        $media->each(function ($file) use ($activity) {
+            $activity->media()->save($file);
+        });
+
+        // act
+        $response = $this->actingAs($user)->getJson('/api/v1/activities/' . $activity->id);
+
+        // assert
+        $response->assertStatus(200);
+        $this->assertEquals($activity->media()->useCase('carousel')->count(), sizeof($response->json('data.carousel')));
+        $this->assertEquals($activity->media()->useCase('background')->count(), sizeof($response->json('data.background')));
     }
 
     /**
