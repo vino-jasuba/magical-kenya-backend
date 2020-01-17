@@ -2,10 +2,13 @@
 
 namespace App\Http\Resources;
 
+use App\MagicalKenya\Traits\HasFiles;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class LocationResource extends JsonResource
 {
+    use HasFiles;
+
     /**
      * Transform the resource into an array.
      *
@@ -26,10 +29,5 @@ class LocationResource extends JsonResource
             'background' => FileResource::collection($this->mediaFor('background')),
             'carousel' => FileResource::collection($this->mediaFor('carousel')),
         ];
-    }
-
-    private function mediaFor(string $useCase)
-    {
-        return $this->media()->useCase($useCase)->get();
     }
 }
