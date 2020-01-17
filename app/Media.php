@@ -17,4 +17,9 @@ class Media extends Model
     {
         return $this->morphMany(Media::class, 'modelable', 'model_type', 'model_primary_key', 'id');
     }
+
+    public function scopeUseCase($query, $useCase)
+    {
+        return $query->where('use_case', $useCase);
+    }
 }
