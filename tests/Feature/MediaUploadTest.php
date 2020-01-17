@@ -6,6 +6,7 @@ use App\Activity;
 use App\Location;
 use App\Media;
 use App\TouristExperience;
+use App\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -161,6 +162,27 @@ class MediaUploadTest extends TestCase
         $response->assertStatus(201);
         $deleteResponse->assertStatus(204);
         $this->assertEquals([], Storage::disk('public')->allFiles());
+    }
+
+
+    public function testItFetchesModelsWithAssociatedMediaFiles()
+    {
+        // setup
+        $user = factory(User::class)->create();
+        $location = factory(Location::class)->create();
+        $media = factory(Media::class, 10)->make();
+
+        $media->each(function ($file) use ($location) {
+            $location->media()->save($file);
+        });
+
+        // act
+        $response = $this->actingAs($user)->getJson('/api/v1/locations/' . $location->id);
+
+        // assert
+        $response->assertStatus(200);
+        $this->assertEquals($location->media()->useCase('carousel')->count(), sizeof($response->json('data.carousel')));
+        $this->assertEquals($location->media()->useCase('background')->count(), sizeof($response->json('data.background')));
     }
 
     /**
