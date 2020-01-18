@@ -18,24 +18,25 @@ class MediaRepository implements InteractsWithMediaContract
      */
     public function uploadFile(Request $request): Collection
     {
-        $files = collect($request->file('files'));
+        $files = $request->file('files');
+        $uploadedMedia = [];
 
-        $media = $files->map(function ($file) use ($request) {
+        foreach ($files as $index => $file) {
             $mimeType = $file->getClientMimeType();
             $path = Storage::disk('public')->put('files', $file);
 
-            $media = new Media([
+            $mediaInstance = new Media([
                 'file_type' => $mimeType,
-                'description' => $request->description,
+                'description' => $request->description[$index],
                 'file_path' => $path,
                 'use_case' => $request->use_case,
             ]);
 
             $model = config('magical_kenya.model_mappings')[$request->target_type];
-            return $model::findOrFail($request->target_key)->media()->save($media);
-        });
+            $uploadedMedia[] = $model::findOrFail($request->target_key)->media()->save($mediaInstance);
+        }
 
-        return $media;
+        return collect($uploadedMedia);
     }
 
     /**

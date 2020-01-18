@@ -28,7 +28,8 @@ class MediaUploadRequest extends FormRequest
         return [
             'files' => ['required', 'array'],
             'files.*' => ['required', 'file', 'mimetypes:image/png,image/jpeg,image/jpg,video/mkv,video/mp4'],
-            'description' => ['required', 'string'],
+            'description' => ['required', 'array'],
+            'description.*' => ['required', 'string'],
             'target_type' => ['required', 'string', Rule::in($targetTypes)],
             'target_key' => ['required'],
             'use_case' => ['required', Rule::in(['background', 'carousel'])],

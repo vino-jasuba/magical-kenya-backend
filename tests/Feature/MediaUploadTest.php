@@ -21,6 +21,7 @@ class MediaUploadTest extends TestCase
     public function testCanUploadImageFiles()
     {
         // setup
+        $this->withoutExceptionHandling();
         Storage::fake('public');
         factory(Location::class, rand(1, 10))->create();
         factory(Activity::class, rand(1, 10))->create();
@@ -31,8 +32,8 @@ class MediaUploadTest extends TestCase
         // act
         // create location media
         $locationMediaResponse = $this->postJson('/api/v1/media', [
-            'files' => [UploadedFile::fake()->image('shiro.jpeg')],
-            'description' => 'experience beauty and glamor with',
+            'files' => [UploadedFile::fake()->image('shiro.jpeg'), UploadedFile::fake()->create('unguja.mp4')],
+            'description' => ['experience beauty and glamor with', 'uploaded video file'],
             'use_case' => 'background',
             'target_key' => $locationId,
             'target_type' => 'location'
@@ -41,16 +42,16 @@ class MediaUploadTest extends TestCase
         // create activity media
         $activityMediaResponse = $this->postJson('/api/v1/media', [
             'files' => [UploadedFile::fake()->image('shiro.png')],
-            'description' => 'play in the sandy beaches of diani',
+            'description' => ['play in the sandy beaches of diani'],
             'use_case' => 'background',
             'target_key' => $activityId,
             'target_type' => 'activity'
         ]);
 
-        // create experience media
+        // // create experience media
         $experienceMediaResponse = $this->postJson('/api/v1/media', [
             'files' => [UploadedFile::fake()->image('shiro.jpeg')],
-            'description' => 'play couple on the shores of Kalungu',
+            'description' => ['play couple on the shores of Kalungu'],
             'use_case' => 'carousel',
             'target_key' => $experienceId,
             'target_type' => 'experience'
@@ -67,6 +68,13 @@ class MediaUploadTest extends TestCase
             'model_primary_key' => $locationId,
         ]);
 
+        $this->assertDatabaseHas('media', [
+            'file_type' => 'video/mp4',
+            'description' => 'uploaded video file',
+            'model_type' => Location::class,
+            'model_primary_key' => $locationId,
+        ]);
+
         // activity media
         $activityMediaResponse->assertStatus(201);
         Storage::disk('public')->assertExists($this->filePathFromUrl($activityMediaResponse->json('data')[0]['file_path']));
@@ -77,7 +85,7 @@ class MediaUploadTest extends TestCase
             'model_primary_key' => $activityId,
         ]);
 
-        // tourist experience media
+        // // tourist experience media
         $experienceMediaResponse->assertStatus(201);
         Storage::disk('public')->assertExists($this->filePathFromUrl($experienceMediaResponse->json('data')[0]['file_path']));
         $this->assertDatabaseHas('media', [
@@ -147,12 +155,13 @@ class MediaUploadTest extends TestCase
         // create location media
         $response = $this->postJson('/api/v1/media', [
             'files' => [UploadedFile::fake()->create('shiro.png')],
-            'description' => 'experience beauty and glamor with',
+            'description' => ['experience beauty and glamor with'],
             'use_case' => 'background',
             'target_key' => $location->id,
             'target_type' => 'location'
         ]);
 
+        $response->assertStatus(201);
         $this->assertNotEquals([], Storage::disk('public')->allFiles());
 
         $media = Media::first();
