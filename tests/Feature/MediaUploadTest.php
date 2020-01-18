@@ -213,6 +213,6 @@ class MediaUploadTest extends TestCase
      */
     private function filePathFromUrl(string $fileUrl)
     {
-        return ltrim(str_replace(env('APP_URL') . '/storage', '', $fileUrl), '/');
+        return ltrim(str_replace(config('app.url') . '/storage', '', $fileUrl), '/');
     }
 }

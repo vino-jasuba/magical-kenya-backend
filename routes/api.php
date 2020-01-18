@@ -13,10 +13,6 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api', function (Request $request) {
-    return $request->user();
-});
-
 Route::apiResource('activities', 'ActivityController');
 Route::apiResource('locations', 'LocationController');
 Route::apiResource('experiences', 'TouristExperienceController');
