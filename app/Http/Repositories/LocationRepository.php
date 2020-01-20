@@ -5,6 +5,9 @@ namespace App\Http\Repositories;
 use App\Http\Contracts\LocationRepositoryContract;
 use App\Location;
 use App\MagicalKenya\Traits\PaginatorLength;
+use App\Media;
+use Illuminate\Support\Facades\Storage;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class LocationRepository implements LocationRepositoryContract
 {
@@ -13,7 +16,6 @@ class LocationRepository implements LocationRepositoryContract
     public function createTouristDestination(\Illuminate\Http\Request $request): \App\Location
     {
         $location = Location::create($request->input());
-
         return $location;
     }
 

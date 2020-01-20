@@ -149,6 +149,7 @@ class MediaUploadTest extends TestCase
     {
         // setup
         Storage::fake('public');
+        Location::unsetEventDispatcher();
         $location = factory(Location::class)->create();
 
         // act
