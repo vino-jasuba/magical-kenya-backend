@@ -24,17 +24,19 @@ class ActivitiesTest extends TestCase
 
         // act
         $response = $this->actingAs($user)->postJson('/api/v1/activities', [
-            'title' => 'Cycling',
+            'name' => 'Cycling',
             'description' => 'Cycling is a family fun activity',
             'catchphrase' => 'See another Morocco when you go',
+            'color_tag' => '#333'
         ]);
 
         // assert
         $response->assertStatus(201)
             ->assertSee("family fun activity");
         $this->assertDatabaseHas('activities', [
-            'title' => 'Cycling',
-            'catchphrase' => 'See another Morocco when you go'
+            'name' => 'Cycling',
+            'catchphrase' => 'See another Morocco when you go',
+            'color_tag' => '#333'
         ]);
     }
 
@@ -43,12 +45,12 @@ class ActivitiesTest extends TestCase
         // setup
         $user = factory(User::class)->create();
         $activity = factory(Activity::class)->create([
-            'title' => 'Cycling'
+            'name' => 'Cycling'
         ]);
 
         // act
         $response = $this->actingAs($user)->postJson('/api/v1/activities', [
-            'title' => 'Cycling',
+            'name' => 'Cycling',
             'description' => 'Cycling is a family fun activity',
             'catchphrase' => 'See another Morocco when you go',
         ]);
@@ -56,7 +58,7 @@ class ActivitiesTest extends TestCase
         // assert
         $response->assertStatus(422)
             ->assertSee("been taken");
-        $this->assertEquals(1, Activity::whereTitle('Cycling')->count());
+        $this->assertEquals(1, Activity::wherename('Cycling')->count());
     }
 
     public function testUnauthenticatedUsersCannotCreateActivities()
@@ -87,17 +89,17 @@ class ActivitiesTest extends TestCase
 
     public function testCanSoftDeleteActivityRecords()
     {
-          // setup
-          $user = factory(User::class)->create();
-          $activity = factory(Activity::class)->create();
+        // setup
+        $user = factory(User::class)->create();
+        $activity = factory(Activity::class)->create();
 
-          // act
-          $response = $this->actingAs($user)->deleteJson('/api/v1/activities/' . $activity->id);
+        // act
+        $response = $this->actingAs($user)->deleteJson('/api/v1/activities/' . $activity->id);
 
-          // assert
-          $response->assertStatus(204);
-          $this->assertSoftDeleted('activities', [
-              'title' => $activity->title,
+        // assert
+        $response->assertStatus(204);
+        $this->assertSoftDeleted('activities', [
+              'name' => $activity->name,
           ]);
     }
 

@@ -21,7 +21,7 @@ class TouristExperienceTest extends TestCase
         // setup
         $user = factory(User::class)->create();
         $activity = factory(Activity::class)->create([
-            'title' => 'Cycling'
+            'name' => 'Cycling'
         ]);
         $location = factory(Location::class)->create([
             'name' => 'Kilimambogo'
@@ -51,10 +51,10 @@ class TouristExperienceTest extends TestCase
         $user = factory(User::class)->create();
 
         // activities
-        $cycling = factory(Activity::class)->create(['title' => 'Cycling']);
-        $culturalFest = factory(Activity::class)->create(['title' => 'Cultural Festivals']);
-        $beaches = factory(Activity::class)->create(['title' => 'Beaches']);
-        $golf = factory(Activity::class)->create(['title' => 'Golf']);
+        $cycling = factory(Activity::class)->create(['name' => 'Cycling']);
+        $culturalFest = factory(Activity::class)->create(['name' => 'Cultural Festivals']);
+        $beaches = factory(Activity::class)->create(['name' => 'Beaches']);
+        $golf = factory(Activity::class)->create(['name' => 'Golf']);
 
         // locations
         $kilimambogo = factory(Location::class)->create(['name' => 'Kilimambogo']);

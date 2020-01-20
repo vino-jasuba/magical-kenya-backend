@@ -28,8 +28,9 @@ class CreateActivityRequest extends FormRequest
 
         return [
             'catchphrase' => ["required", "string"],
-            'title' => ["required", "string", "unique:{$database}"],
+            'name' => ["required", "string", "unique:{$database}"],
             'description' => ["required", "string"],
+            'color_tag' => ['required', 'string', 'starts_with:#', 'min:4'],
         ];
     }
 }
