@@ -1,9 +1,9 @@
 <?php
 
-use App\TouristExperience;
+use App\User;
 use Illuminate\Database\Seeder;
 
-class TouristExperienceSeeder extends Seeder
+class UsersTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -12,6 +12,8 @@ class TouristExperienceSeeder extends Seeder
      */
     public function run()
     {
-        factory(TouristExperience::class, 50)->create();
+        factory(User::class)->create([
+            'email' => 'user@example.com'
+        ]);
     }
 }

@@ -28,6 +28,7 @@ class LocationResource extends JsonResource
             'lng' => $this->lng,
             'background' => FileResource::collection($this->mediaFor('background')),
             'carousel' => FileResource::collection($this->mediaFor('carousel')),
+            'qr_code' => new FileResource($this->mediaFor('qr_code')->first())
         ];
     }
 }
