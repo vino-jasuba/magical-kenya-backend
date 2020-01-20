@@ -8,7 +8,7 @@ class ActivityFilter extends ModelFilter
     {
         if (request()->activity) {
             return $query->whereHas('activity', function ($q) {
-                $q->where('title', request()->activity);
+                $q->where('name', request()->activity);
             });
         }
 

@@ -15,7 +15,7 @@ class TouristExperienceResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'title' => $this->location->name . ' ' . $this->activity->title,
+            'title' => $this->location->name . ' ' . $this->activity->name,
             'description' => $this->description,
         ];
     }

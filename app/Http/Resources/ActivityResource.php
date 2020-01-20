@@ -19,7 +19,8 @@ class ActivityResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'title' => $this->title,
+            'name' => $this->title,
+            'color_tag' => $this->color_tag,
             'catchphrase' => $this->catchphrase,
             'description' => $this->description,
             'carousel' => FileResource::collection($this->mediaFor('carousel')),
