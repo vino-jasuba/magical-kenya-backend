@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\User;
 use App\Activity;
 use App\Location;
+use App\Tag;
 use Tests\TestCase;
 use App\TouristExperience;
 use Illuminate\Support\Str;
@@ -43,6 +44,31 @@ class TouristExperienceTest extends TestCase
         $this->assertDatabaseHas((new TouristExperience)->getTable(), [
             'description' => 'Experience Bliss'
         ]);
+    }
+
+    public function testItCreatesTagsForTouristExperiences()
+    {
+        // setup
+        $this->withoutExceptionHandling();
+        $user = factory(User::class)->create();
+        $activity = factory(Activity::class)->create([
+            'name' => 'Cycling'
+        ]);
+        $location = factory(Location::class)->create([
+            'name' => 'Kilimambogo'
+        ]);
+
+        // act
+        $response = $this->actingAs($user)->postJson('/api/v1/experiences', [
+            'location_id' => $location->id,
+            'activity_id' => $activity->id,
+            'description' => 'Experience Bliss',
+            'tags' => ['cool', 'new', 'stuff']
+        ]);
+
+        // assert
+        $response->assertStatus(201);
+        $this->assertEquals(3, Tag::count());
     }
 
     public function testCreatingTouristExperiencesWithContactPersonDetailsGeneratesVCardQRCode()

@@ -30,4 +30,9 @@ class TouristExperience extends Model
     {
         return $this->belongsTo(Liaison::class);
     }
+
+    public function tags()
+    {
+        return $this->morphToMany(Tag::class, 'taggable');
+    }
 }

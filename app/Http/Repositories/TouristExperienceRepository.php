@@ -6,7 +6,9 @@ use App\Http\Contracts\TouristExperienceRepositoryContract;
 use App\Liaison;
 use App\MagicalKenya\Filters\ActivityFilter;
 use App\MagicalKenya\Filters\LocationFilter;
+use App\MagicalKenya\Filters\TagFilter;
 use App\MagicalKenya\Traits\PaginatorLength;
+use App\Tag;
 use App\TouristExperience;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Http\Request;
@@ -41,6 +43,8 @@ class TouristExperienceRepository implements TouristExperienceRepositoryContract
             $liaison->associatedExperiences()->save($touristExperience);
         }
 
+        $this->syncTagsFromRequest($touristExperience, $request);
+
         return $touristExperience;
     }
 
@@ -56,6 +60,7 @@ class TouristExperienceRepository implements TouristExperienceRepositoryContract
             ->through([
                 LocationFilter::class,
                 ActivityFilter::class,
+                TagFilter::class,
             ])
             ->thenReturn()
             ->paginate($this->perPage($request));
@@ -68,6 +73,9 @@ class TouristExperienceRepository implements TouristExperienceRepositoryContract
     {
         $touristExperience->fill($request->input());
         $touristExperience->save();
+
+        $this->syncTagsFromRequest($touristExperience, $request);
+
         return $touristExperience;
     }
 
@@ -77,5 +85,22 @@ class TouristExperienceRepository implements TouristExperienceRepositoryContract
     public function removeTouristExperience(TouristExperience $touristExperience)
     {
         $touristExperience->delete();
+    }
+
+
+    private function syncTagsFromRequest(TouristExperience $touristExperience, Request $request) : void
+    {
+        if ($request->has('tags')) {
+            $tags = collect($request->tags)->map(function ($tagName) {
+                $tag = Tag::firstOrCreate([
+                    'name' => $tagName,
+                ]);
+
+                return $tag->id;
+            })
+            ->toArray();
+
+            $touristExperience->tags()->sync($tags);
+        }
     }
 }
