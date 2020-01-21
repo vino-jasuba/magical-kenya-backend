@@ -27,6 +27,7 @@ class TouristExperienceResource extends JsonResource
                 'name' => $this->location->name,
             ],
             'carousel' => FileResource::collection($this->mediaFor('carousel')),
+            'liaison' => new LiaisonResource($this->liaison),
         ];
     }
 }

@@ -25,4 +25,9 @@ class TouristExperience extends Model
     {
         return $this->morphMany(Media::class, 'modelable', 'model_type', 'model_primary_key', 'id');
     }
+
+    public function liaison()
+    {
+        return $this->belongsTo(Liaison::class);
+    }
 }

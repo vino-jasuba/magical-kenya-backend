@@ -29,6 +29,8 @@ class CreateExperienceRequest extends FormRequest
             'description' => ['required', 'string'],
             'activity_id' => ['required', 'exists:' . (new Activity)->getTable() . ',id'],
             'location_id' => ['required', 'exists:' . (new Location)->getTable() . ',id'],
+            'contact_name' => ['filled', 'string'],
+            'contact_phone_number' => ['required_with:contact_name'],
         ];
     }
 }

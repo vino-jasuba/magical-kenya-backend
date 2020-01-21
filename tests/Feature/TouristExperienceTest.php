@@ -2,14 +2,15 @@
 
 namespace Tests\Feature;
 
+use App\User;
 use App\Activity;
 use App\Location;
+use Tests\TestCase;
 use App\TouristExperience;
-use App\User;
+use Illuminate\Support\Str;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
-use Tests\TestCase;
 
 class TouristExperienceTest extends TestCase
 {
@@ -19,6 +20,7 @@ class TouristExperienceTest extends TestCase
     public function testItCreatesTouristExperiences()
     {
         // setup
+        $this->withoutExceptionHandling();
         $user = factory(User::class)->create();
         $activity = factory(Activity::class)->create([
             'name' => 'Cycling'
@@ -41,6 +43,45 @@ class TouristExperienceTest extends TestCase
         $this->assertDatabaseHas((new TouristExperience)->getTable(), [
             'description' => 'Experience Bliss'
         ]);
+    }
+
+    public function testCreatingTouristExperiencesWithContactPersonDetailsGeneratesVCardQRCode()
+    {
+        // setup
+        $this->withoutExceptionHandling();
+        $user = factory(User::class)->create();
+        $activity = factory(Activity::class)->create([
+            'name' => 'Cycling'
+        ]);
+        $location = factory(Location::class)->create([
+            'name' => 'Kilimambogo'
+        ]);
+
+        $phoneNumber = $this->faker()->phoneNumber;
+        $contactName = $this->faker()->name;
+
+        // act
+        $response = $this->actingAs($user)->postJson('/api/v1/experiences', [
+            'location_id' => $location->id,
+            'activity_id' => $activity->id,
+            'description' => 'Experience Bliss',
+            'contact_name' => $contactName,
+            'contact_phone_number' => $phoneNumber,
+        ]);
+
+        // assert
+        $experienceLiaison = TouristExperience::first()->liaison;
+
+        $response->assertStatus(201)
+            ->assertSee('Kilimambogo Cycling')
+            ->assertSee('Experience Bliss')
+            ->assertSee(Str::slug($experienceLiaison->name) . '.svg');
+        $this->assertDatabaseHas((new TouristExperience)->getTable(), [
+            'description' => 'Experience Bliss'
+        ]);
+
+        $this->assertEquals($experienceLiaison->phone_number, $phoneNumber);
+        $this->assertEquals($experienceLiaison->name, $contactName);
     }
 
     public function testItCanFetchExperiencesByAppliedFilterQuery()
