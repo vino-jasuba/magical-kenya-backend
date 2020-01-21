@@ -4,18 +4,17 @@ namespace App;
 
 use App\MagicalKenya\Traits\HasQrCode;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Storage;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Illuminate\Support\Str;
 
-class Location extends Model
+class Liaison extends Model
 {
-    use SoftDeletes, HasQrCode;
+    use HasQrCode;
 
     protected $guarded = [];
 
-    public function experiences()
+    public function associatedExperiences()
     {
         return $this->hasMany(TouristExperience::class);
     }
@@ -27,6 +26,6 @@ class Location extends Model
 
     public function getQrContentAttribute() : string
     {
-        return "geo:{$this->lat},{$this->lng}";
+        return "tel: {$this->phone_number}";
     }
 }
