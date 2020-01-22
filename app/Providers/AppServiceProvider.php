@@ -6,11 +6,13 @@ use App\Http\Repositories\ActivityRepository;
 use App\Http\Repositories\LocationRepository;
 use App\Http\Repositories\TouristExperienceRepository;
 use App\Http\Contracts\ActivityRepositoryContract;
+use App\Http\Contracts\EventRepositoryContract;
 use App\Http\Contracts\InteractsWithMediaContract;
 use App\Http\Contracts\LocationRepositoryContract;
 use App\Http\Contracts\SearchServiceInterface;
 use App\Http\Contracts\TouristExperienceRepositoryContract;
 use App\Http\Repositories\EloquentSearchRepository;
+use App\Http\Repositories\EventRepository;
 use App\Http\Repositories\MediaRepository;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\ServiceProvider;
@@ -29,6 +31,7 @@ class AppServiceProvider extends ServiceProvider
         App::bind(TouristExperienceRepositoryContract::class, TouristExperienceRepository::class);
         App::bind(InteractsWithMediaContract::class, MediaRepository::class);
         App::bind(SearchServiceInterface::class, EloquentSearchRepository::class);
+        App::bind(EventRepositoryContract::class, EventRepository::class);
     }
 
     /**

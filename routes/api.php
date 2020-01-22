@@ -17,5 +17,6 @@ Route::apiResource('activities', 'ActivityController');
 Route::apiResource('locations', 'LocationController');
 Route::apiResource('experiences', 'TouristExperienceController');
 Route::apiResource('media', 'MediaController')->only(['store', 'update', 'destroy']);
+Route::apiResource('events', 'EventController');
 Route::get('tags', 'TagController');
 Route::get('search', 'SearchController');
