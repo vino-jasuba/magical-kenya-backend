@@ -23,6 +23,7 @@ class ActivityResource extends JsonResource
             'color_tag' => $this->color_tag,
             'catchphrase' => $this->catchphrase,
             'description' => $this->description,
+            'slug' => $this->slug,
             'carousel' => FileResource::collection($this->mediaFor('carousel')),
             'background' => FileResource::collection($this->mediaFor('background')),
         ];

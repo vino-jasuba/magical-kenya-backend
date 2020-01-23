@@ -6,9 +6,11 @@ class LocationFilter extends ModelFilter
 {
     public function applyFilter($query)
     {
-        if (request()->location) {
-            return $query->whereHas('location', function ($q) {
-                $q->where('name', request()->location);
+        $location = request()->location;
+
+        if ($location) {
+            return $query->whereHas('location', function ($q) use ($location) {
+                $q->where('name', $location)->orWhere('slug', $location);
             });
         }
 

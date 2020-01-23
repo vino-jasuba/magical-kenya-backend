@@ -3,6 +3,7 @@
 namespace App;
 
 use App\MagicalKenya\Traits\HasQrCode;
+use App\MagicalKenya\Traits\Sluggable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Storage;
@@ -11,7 +12,7 @@ use Illuminate\Support\Str;
 
 class Location extends Model
 {
-    use SoftDeletes, HasQrCode;
+    use SoftDeletes, HasQrCode, Sluggable;
 
     protected $guarded = [];
 
