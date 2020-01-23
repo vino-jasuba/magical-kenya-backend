@@ -6,9 +6,11 @@ class ActivityFilter extends ModelFilter
 {
     public function applyFilter($query)
     {
-        if (request()->activity) {
-            return $query->whereHas('activity', function ($q) {
-                $q->where('name', request()->activity);
+        $activity = request()->activity;
+
+        if ($activity) {
+            return $query->whereHas('activity', function ($q) use ($activity) {
+                $q->where('name', $activity)->orWhere('slug', $activity);
             });
         }
 

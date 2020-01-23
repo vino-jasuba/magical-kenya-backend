@@ -2,12 +2,13 @@
 
 namespace App;
 
+use App\MagicalKenya\Traits\Sluggable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Activity extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, Sluggable;
 
     protected $guarded = [];
 

@@ -23,6 +23,7 @@ class LocationResource extends JsonResource
             'catchphrase' => $this->catchphrase,
             'description' => $this->description,
             'color_tag' => $this->color_tag,
+            'slug' => $this->slug,
             'icon' => $this->icon,
             'lat' => $this->lat,
             'lng' => $this->lng,
