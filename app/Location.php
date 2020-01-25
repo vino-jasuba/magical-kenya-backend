@@ -9,8 +9,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Storage;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Illuminate\Support\Str;
+use Spatie\Searchable\Searchable;
+use Spatie\Searchable\SearchResult;
 
-class Location extends Model
+class Location extends Model implements Searchable
 {
     use SoftDeletes, HasQrCode, Sluggable;
 
@@ -29,5 +31,10 @@ class Location extends Model
     public function getQrContentAttribute() : string
     {
         return "geo:{$this->lat},{$this->lng}";
+    }
+
+    public function getSearchResult(): \Spatie\Searchable\SearchResult
+    {
+        return new SearchResult($this, $this->name, route('locations.show', $this->slug));
     }
 }

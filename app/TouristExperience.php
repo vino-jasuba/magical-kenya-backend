@@ -4,8 +4,10 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\Searchable\Searchable;
+use Spatie\Searchable\SearchResult;
 
-class TouristExperience extends Model
+class TouristExperience extends Model implements Searchable
 {
     use SoftDeletes;
 
@@ -34,5 +36,10 @@ class TouristExperience extends Model
     public function tags()
     {
         return $this->morphToMany(Tag::class, 'taggable');
+    }
+
+    public function getSearchResult(): \Spatie\Searchable\SearchResult
+    {
+        return new SearchResult($this, $this->description, route('experiences.show', $this->id));
     }
 }
