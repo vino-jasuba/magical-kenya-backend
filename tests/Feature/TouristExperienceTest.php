@@ -12,6 +12,7 @@ use Illuminate\Support\Str;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Laravel\Passport\Passport;
 
 class TouristExperienceTest extends TestCase
 {
@@ -22,7 +23,7 @@ class TouristExperienceTest extends TestCase
     {
         // setup
         $this->withoutExceptionHandling();
-        $user = factory(User::class)->create();
+        Passport::actingAs(factory(User::class)->create());
         $activity = factory(Activity::class)->create([
             'name' => 'Cycling'
         ]);
@@ -31,7 +32,7 @@ class TouristExperienceTest extends TestCase
         ]);
 
         // act
-        $response = $this->actingAs($user)->postJson('/api/v1/experiences', [
+        $response = $this->postJson('/api/v1/experiences', [
             'location_id' => $location->id,
             'activity_id' => $activity->id,
             'description' => 'Experience Bliss',
@@ -50,7 +51,7 @@ class TouristExperienceTest extends TestCase
     {
         // setup
         $this->withoutExceptionHandling();
-        $user = factory(User::class)->create();
+        Passport::actingAs(factory(User::class)->create());
         $activity = factory(Activity::class)->create([
             'name' => 'Cycling'
         ]);
@@ -59,7 +60,7 @@ class TouristExperienceTest extends TestCase
         ]);
 
         // act
-        $response = $this->actingAs($user)->postJson('/api/v1/experiences', [
+        $response = $this->postJson('/api/v1/experiences', [
             'location_id' => $location->id,
             'activity_id' => $activity->id,
             'description' => 'Experience Bliss',
@@ -75,7 +76,7 @@ class TouristExperienceTest extends TestCase
     {
         // setup
         $this->withoutExceptionHandling();
-        $user = factory(User::class)->create();
+        Passport::actingAs(factory(User::class)->create());
         $activity = factory(Activity::class)->create([
             'name' => 'Cycling'
         ]);
@@ -87,7 +88,7 @@ class TouristExperienceTest extends TestCase
         $contactName = $this->faker()->name;
 
         // act
-        $response = $this->actingAs($user)->postJson('/api/v1/experiences', [
+        $response = $this->postJson('/api/v1/experiences', [
             'location_id' => $location->id,
             'activity_id' => $activity->id,
             'description' => 'Experience Bliss',
@@ -115,7 +116,7 @@ class TouristExperienceTest extends TestCase
         $this->withoutExceptionHandling();
         // setup
         // user
-        $user = factory(User::class)->create();
+
 
         // activities
         $cycling = factory(Activity::class)->create(['name' => 'Cycling']);
@@ -186,11 +187,11 @@ class TouristExperienceTest extends TestCase
     public function testAuthenticatedUsersCanUpdateExperienceDetails()
     {
         // setup
-        $user = factory(User::class)->create();
+        Passport::actingAs(factory(User::class)->create());
         $experience = factory(TouristExperience::class)->create();
 
         // act
-        $response = $this->actingAs($user)->patchJson('/api/v1/experiences/' . $experience->id, [
+        $response = $this->patchJson('/api/v1/experiences/' . $experience->id, [
             'description' => 'Experience the joy of golf on the sandy beaches of Marakech',
         ]);
 
@@ -205,17 +206,17 @@ class TouristExperienceTest extends TestCase
 
     public function testCanSoftDeleteTouristExperienceRecords()
     {
-          // setup
-          $user = factory(User::class)->create();
-          $experience = factory(TouristExperience::class)->create();
+        // setup
+        Passport::actingAs(factory(User::class)->create());
+        $experience = factory(TouristExperience::class)->create();
 
-          // act
-          $response = $this->actingAs($user)->deleteJson('/api/v1/experiences/' . $experience->id);
+        // act
+        $response = $this->deleteJson('/api/v1/experiences/' . $experience->id);
 
-          // assert
-          $response->assertStatus(204);
-          $this->assertSoftDeleted((new TouristExperience)->getTable(), [
-              'description' => $experience->description,
-          ]);
+        // assert
+        $response->assertStatus(204);
+        $this->assertSoftDeleted((new TouristExperience)->getTable(), [
+            'description' => $experience->description,
+        ]);
     }
 }
