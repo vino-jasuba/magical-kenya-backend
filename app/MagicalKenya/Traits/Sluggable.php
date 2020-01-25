@@ -8,7 +8,7 @@ trait Sluggable
 {
     public static function bootSluggable()
     {
-        static::creating(function ($model) {
+        static::saving(function ($model) {
             // generate slug
             $model->slug = Str::slug(str_replace('&', 'and', $model->name));
         });

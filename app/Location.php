@@ -16,7 +16,7 @@ class Location extends Model implements Searchable
 {
     use SoftDeletes, HasQrCode, Sluggable;
 
-    protected $guarded = [];
+    protected $fillable = ['name', 'description', 'color_tag', 'catchphrase', 'icon', 'lat', 'lng'];
 
     public function experiences()
     {

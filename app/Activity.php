@@ -12,7 +12,7 @@ class Activity extends Model implements Searchable
 {
     use SoftDeletes, Sluggable;
 
-    protected $guarded = [];
+    protected $fillable = ['name', 'description', 'color_tag', 'catchphrase'];
 
     public function experiences()
     {
