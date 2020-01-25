@@ -7,6 +7,7 @@ use App\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Laravel\Passport\Passport;
 use Tests\TestCase;
 
 class TouristDestinationTest extends TestCase
@@ -22,10 +23,10 @@ class TouristDestinationTest extends TestCase
     public function testAuthenticatedUsersCanCreateNewTouristDestinations()
     {
         // setup
-        $user = factory(User::class)->create();
+        Passport::actingAs(factory(User::class)->create());
 
         // act
-        $response = $this->actingAs($user)->postJson('/api/v1/locations', [
+        $response = $this->postJson('/api/v1/locations', [
             'name' => 'Agadir',
             'description' => 'The place of wonders',
             'icon' => 'path/to/icon/file.ico',
@@ -47,11 +48,11 @@ class TouristDestinationTest extends TestCase
     public function testAuthenticationUsersCanUpdateTouristDestinationDetails()
     {
         // setup
-        $user = factory(User::class)->create();
+        Passport::actingAs(factory(User::class)->create());
         $destination = factory(Location::class)->create();
 
         // act
-        $response = $this->actingAs($user)->patchJson('/api/v1/locations/' . $destination->id, [
+        $response = $this->patchJson('/api/v1/locations/' . $destination->id, [
             'name' => 'Marakech',
             'description' => 'Cool desert makes no sense',
         ]);
@@ -83,11 +84,11 @@ class TouristDestinationTest extends TestCase
     public function testItSoftDeletesTouristDestinations()
     {
         // setup
-        $user = factory(User::class)->create();
+        Passport::actingAs(factory(User::class)->create());
         $location = factory(Location::class)->create();
 
         // act
-        $response = $this->actingAs($user)->deleteJson('/api/v1/locations/' . $location->id);
+        $response = $this->deleteJson('/api/v1/locations/' . $location->id);
 
         // assert
         $response->assertStatus(204);

@@ -7,6 +7,7 @@ use App\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Laravel\Passport\Passport;
 use Tests\TestCase;
 
 class ActivitiesTest extends TestCase
@@ -20,10 +21,11 @@ class ActivitiesTest extends TestCase
     public function testAuthenticatedUsersCanCreateActivities()
     {
         // setup
-        $user = factory(User::class)->create();
+        Passport::actingAs(factory(User::class)->create());
+
 
         // act
-        $response = $this->actingAs($user)->postJson('/api/v1/activities', [
+        $response = $this->postJson('/api/v1/activities', [
             'name' => 'Cycling',
             'description' => 'Cycling is a family fun activity',
             'catchphrase' => 'See another Morocco when you go',
@@ -43,13 +45,14 @@ class ActivitiesTest extends TestCase
     public function testCannotCreateDuplicateActivity()
     {
         // setup
-        $user = factory(User::class)->create();
+        Passport::actingAs(factory(User::class)->create());
+
         $activity = factory(Activity::class)->create([
             'name' => 'Cycling'
         ]);
 
         // act
-        $response = $this->actingAs($user)->postJson('/api/v1/activities', [
+        $response = $this->postJson('/api/v1/activities', [
             'name' => 'Cycling',
             'description' => 'Cycling is a family fun activity',
             'catchphrase' => 'See another Morocco when you go',
@@ -72,11 +75,12 @@ class ActivitiesTest extends TestCase
     public function testItCanUpdateActivityDetails()
     {
         // setup
-        $user = factory(User::class)->create();
+        Passport::actingAs(factory(User::class)->create());
+
         $activity = factory(Activity::class)->create();
 
         // act
-        $response = $this->actingAs($user)->patchJson('/api/v1/activities/' . $activity->id, [
+        $response = $this->patchJson('/api/v1/activities/' . $activity->id, [
             'description' => 'Cycling is a family fun activity',
         ]);
 
@@ -90,11 +94,12 @@ class ActivitiesTest extends TestCase
     public function testCanSoftDeleteActivityRecords()
     {
         // setup
-        $user = factory(User::class)->create();
+        Passport::actingAs(factory(User::class)->create());
+
         $activity = factory(Activity::class)->create();
 
         // act
-        $response = $this->actingAs($user)->deleteJson('/api/v1/activities/' . $activity->id);
+        $response = $this->deleteJson('/api/v1/activities/' . $activity->id);
 
         // assert
         $response->assertStatus(204);
