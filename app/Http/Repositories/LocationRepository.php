@@ -28,7 +28,7 @@ class LocationRepository implements LocationRepositoryContract
 
     public function getAllTouristDestinations(\Illuminate\Http\Request $request): \Illuminate\Contracts\Pagination\LengthAwarePaginator
     {
-        return Location::paginate($this->perPage($request));
+        return Location::orderBy('created_at', 'desc')->paginate($this->perPage($request));
     }
 
     public function removeLocationFromListing(\App\Location $location)

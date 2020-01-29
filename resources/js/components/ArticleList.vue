@@ -6,6 +6,10 @@
 
 <template>
     <div class="col">
+        <loading :active.sync="isLoading"
+            :can-cancel="false"
+            :is-full-page="true">
+        </loading>
         <activity v-for="article in data.data" :key="article.id" :article="article" :type="article_type" :target_url="target_url"></activity>
     </div>
 </template>
@@ -17,6 +21,7 @@
         data() {
             return {
                data: [],
+               isLoading: true,
             };
         },
 
@@ -24,7 +29,7 @@
             axios.get(this.target_url)
                 .then(response => {
                     this.data = {...response.data}
-                    console.log({...this.data})
+                    this.isLoading = false;
                 }).catch(error => {
                     console.log({...error.response.data})
                 })

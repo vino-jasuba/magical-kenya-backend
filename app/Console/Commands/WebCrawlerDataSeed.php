@@ -102,11 +102,11 @@ class WebCrawlerDataSeed extends Command
                         $title = $nodeCrawler->filter('.standard-content-title')->text();
                         $this->info($title);
                         $description = $nodeCrawler->filter('.content > p')->text();
-                        $location = Location::whereName(rtrim(str_replace($activity->name, '', $title)))->first();
+                        $location = Location::whereName(rtrim(str_replace($activity->name, '', $title)))->firstOrFail();
 
                         // we don't have matching location so just move on
                         if ($location) {
-                            factory(TouristExperience::class)->create([
+                            TouristExperience::create([
                                 'activity_id' => $activity->id,
                                 'location_id' => $location->id,
                                 'description' => $description,

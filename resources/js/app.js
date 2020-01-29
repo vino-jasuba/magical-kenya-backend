@@ -1,7 +1,12 @@
 require('./bootstrap');
-import VueFormWizard from 'vue-form-wizard'
 import 'vue-form-wizard/dist/vue-form-wizard.min.css'
+import 'vue-loading-overlay/dist/vue-loading.css';
+import VueFormWizard from 'vue-form-wizard'
 import CKEditor from '@ckeditor/ckeditor5-vue';
+import VuePlaceAutocomplete from 'vue-place-autocomplete';
+import Loading from 'vue-loading-overlay';
+import Vuelidate from 'vuelidate'
+import Notifications from 'vue-notification'
 
 window.Vue = require ('vue');
 
@@ -35,11 +40,23 @@ Vue.component(
     require('./components/CreateUpdateArticle.vue').default
 );
 
+Vue.component(
+    'image-upload',
+    require('./components/ImageUpload.vue').default
+);
+
+Vue.component('loading', Loading);
+
 Vue.use( CKEditor );
 
 Vue.use(VueFormWizard)
 
+Vue.use(VuePlaceAutocomplete);
+
+Vue.use(Notifications)
+
+Vue.use(Vuelidate)
 
 const app = new Vue({
-    el: '#app'
+    el: '#app',
 });

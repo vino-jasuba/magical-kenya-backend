@@ -25,7 +25,7 @@ class UpdateLocationRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['filled', 'string', 'unique:' . (new Location)->getTable()],
+            'name' => ['filled', 'string'],
             'description' => ['filled', 'string'],
             'icon' => ['filled', 'string'],
             'catchphrase' => ['filled', 'string'],
