@@ -7,7 +7,7 @@
 <template>
     <div class="col">
         <div class="card shadow-sm mt-4" style="width: 18rem;">
-            <img class="card-img-top" src="#" alt="Card image cap">
+            <img class="card-img-top" :src="getPreviewImage()" alt="Card image cap">
             <div class="card-body">
                 <h5 class="card-title">{{article.name}}</h5>
                 <div v-html="article.description" class="card-text"></div>
@@ -20,18 +20,14 @@
 <script>
     export default {
         props: ['article', 'type', 'target_url'],
-        data() {
-            return {
-                tokens: []
-            };
-        },
-
-        mounted() {
-
-        },
-
         methods: {
+            getPreviewImage() {
+                if (this.article.carousel.length) {
+                    return this.article.carousel[0].file_path;
+                }
 
+                return "https://via.placeholder.com/300.png/09f/fff";
+            }
         }
     }
 </script>

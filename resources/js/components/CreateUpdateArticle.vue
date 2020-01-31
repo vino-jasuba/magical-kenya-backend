@@ -6,15 +6,21 @@
 
 <template>
     <div class="card-body">
-        <form-wizard color="#5e72e4" title="" subtitle="" stepSize="xs">
-            <tab-content class="mt-6" title="Create Activity">
+        <loading :active="isLoading"
+            :can-cancel="true"
+            :on-cancel="onCancel"
+            :is-full-page="fullPage">
+        </loading>
+        <notifications group="articles"/>
+        <form-wizard color="#5e72e4" title="" subtitle="" stepSize="xs" @on-complete="handleFormSubmit">
+            <tab-content class="mt-6" title="Create Activity" :before-change="validateAsync">
                 <div class="form-group row text-right">
                     <label class="form-control-label col-2" for="name">Name</label>
-                    <input class="form-control form-control-alternative col-8" v-model="data.name" type="text" name="name" id="name">
+                    <input class="form-control col-8" ref="nameInput" :class="{'is-invalid': $v.data.name.$error}" v-model.trim="$v.data.name.$model" type="text" name="name" id="name">
                 </div>
                 <div class="form-group row text-right">
                     <label class="form-control-label col-2" for="catchphrase">Catchphrase</label>
-                    <input class="form-control form-control-alternative col-8" v-model="data.catchphrase" type="text" name="catchphrase" id="catchphrase">
+                    <input class="form-control col-8" :class="{'is-invalid': $v.data.catchphrase.$error}" v-model.trim="$v.data.catchphrase.$model" type="text" name="catchphrase" id="catchphrase">
                 </div>
                 <div class="form-group row text-right">
                     <label class="form-control-label col-2">Color Tag</label>
@@ -22,18 +28,30 @@
                 </div>
                 <div v-if="type === 'location'" class="form-group row text-right">
                     <label for="location" class="form-control-label col-2">Location</label>
-                    <input class="form-control form-control-alternative col-8" v-model="data.catchphrase" type="text" name="location" id="location">
+                    <place-autocomplete-field class="col-8"
+                        v-model="rawLocation"
+                        placeholder="Enter an an address, zipcode, or location"
+                        name="rawLocation"
+                        api-key="AIzaSyCbr2jFV2MbmT7QxP5eUVHywrEG2TUfnDM">
+                    </place-autocomplete-field>
                 </div>
                 <div class="form-group row text-right">
                     <label class="form-control-label col-2" for="description">Description</label>
-                    <ckeditor class="col-8" :editor="editor" v-model="data.description" :config="editorConfig"></ckeditor>
+                    <ckeditor class="col-8" :editor="editor" v-model="$v.data.description.$model" :config="editorConfig"></ckeditor>
                 </div>
             </tab-content>
-            <tab-content title="Select Images">
+            <tab-content title="Select Images" :before-change="validateImages">
                 <div class="form-group row text-right">
-                    <label class="form-control-label col-2" for="background">Background Images</label>
-
+                    <image-upload
+                        :imageIdentifier="imageUniqId"
+                        v-for="index in Object.keys(imageFiles).length + 1"
+                        :key="index"
+                        @imageSelected="handleSelectedImage"
+                        @imageRemoved="handleImageRemoved"
+                    >
+                    </image-upload>
                 </div>
+                <button class="btn btn-primary" @click="addImageUploadField">Add Image</button>
             </tab-content>
             <tab-content title="Upload">
                 Upload media files
@@ -43,10 +61,12 @@
 </template>
 
 <script>
+    import "vue-swatches/dist/vue-swatches.min.css";
     import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
     import Cookie from 'js-cookie';
     import Swatches from 'vue-swatches';
-    import "vue-swatches/dist/vue-swatches.min.css";
+    import uuid from 'uuid/v4';
+    import { required } from 'vuelidate/lib/validators'
 
     export default {
         props: ['slug','type'],
@@ -60,7 +80,6 @@
                     icon: '/path/to/icon/file',
                     lat: 12.12,
                     lng: 92.134,
-                    isEditing: false,
                     carousel: [],
                     background: [],
                     color_tag: '#1CA085',
@@ -70,7 +89,22 @@
                     toolbar: [ 'heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote' ],
                 },
                 target_url: null,
+                isEditing: false,
+                rawLocation: null,
+                imageFiles: {},
+                isLoading: true,
+                fullPage: true,
+                imageUniqId: uuid(),
+                loadingWizard: true,
             };
+        },
+
+        validations: {
+            data: {
+                name: { required },
+                catchphrase: { required },
+                description: { required },
+            }
         },
 
         mounted() {
@@ -81,11 +115,26 @@
 
         methods: {
             handleFormSubmit() {
-                if (this.isEditing) {
-                    return this.updateRecordRequest();
+                /** Upload images for the created resource */
+                const use_case = 'carousel';
+
+                let formData = new FormData;
+                formData.set('target_key', this.data.data.id);
+                formData.set('target_type', this.type);
+                formData.set('use_case', use_case);
+
+                const images = Object.values(this.imageFiles);
+
+                for (let i = 0; i < images.length; i++) {
+                    formData.append(`files[${i}]`, images[i].file);
+                    formData.append(`description[${i}]`, images[i].description);
                 }
 
-                this.createRecordRequest();
+                axios.post('/media', formData).then(res => {
+                    window.location = this.target_url;
+                }).catch(err => {
+                    console.log({...err.response.data})
+                })
             },
 
             setFormURLFromModelType() {
@@ -102,36 +151,105 @@
             // If we have a slug then we're in edit context therefore
             // we need to fetch the associated record
                 if (this.slug) {
-                    this.data.isEditing = true;
+                    this.isEditing = true;
                     axios.get(`${this.target_url}/` + this.slug).then(response => {
                         this.data = {...response.data.data}
-                        console.log({...response.data});
                     }).catch(error => {
                         console.log({...error.response.data});
                     })
                 }
+
+                this.isLoading = false;
             },
 
             updateRecordRequest() {
-                axios.patch(`${this.target_url}/` + this.data.slug, {
+                return axios.patch(`${this.target_url}/` + this.data.slug, {
                     ...this.data,
                     headers: {
                         Authorization: 'Bearer ' + Cookie.get('laravel_token')
                     }
-                }).then(response => {
-                    console.log({...response.data});
+                }).then(res => {
+                    this.data = {...res.data};
+                    return true;
+                }).catch(error => {
+                    this.processErrorResponse(error);
                 });
             },
 
             createRecordRequest() {
-                axios.post(this.target_url, {
+                return axios.post(this.target_url, {
                     ...this.data,
                     headers: {
                         Authorization: 'Bearer ' + Cookie.get('laravel_token')
                     }
-                }).then(response => {
-                    console.log({...response.data});
+                }).then(res => {
+                    this.data = {...res.data};
+                    return true;
+                }).catch(error => {
+                    this.processErrorResponse(error);
                 });
+            },
+
+            onCancel() {
+                console.log("this is funny")
+            },
+
+            handleSelectedImage(uploadedFile) {
+                this.imageFiles[uploadedFile.id] = uploadedFile;
+            },
+
+            handleImageRemoved(imageId) {
+
+            },
+
+            addImageUploadField() {
+                this.imageUniqId = uuid();
+            },
+
+            /**
+             * Validate the request data. This validation is handled based on whether the
+             * resource in question is an activity or a location resource item
+             */
+            validateAsync() {
+                const validData = !this.$v.data.name.$invalid && !this.$v.data.catchphrase.$invalid && !this.$v.data.description.$invalid;
+
+                if (!validData) {
+                    this.$notify({
+                        group: 'articles',
+                        title: 'Error',
+                        text: 'You cannot proceed without filling all the fields',
+                        type: 'error',
+                        duration: 5000,
+                    });
+
+                    return false;
+                }
+
+                if (this.isEditing) {
+                    return this.updateRecordRequest();
+                }
+
+                return this.createRecordRequest();
+            },
+
+            validateImages() {
+                return true;
+            },
+
+            processErrorResponse(error) {
+                const data = error.response.data;
+                const errors = Object.values(error.response.data.errors);
+                errors.map(e => {
+                    this.$notify({
+                        group: 'articles',
+                        title: data.message,
+                        text: e[0],
+                        type: 'error',
+                        duration: 5000,
+                    });
+                });
+
+                throw error;
             }
         }
     }
