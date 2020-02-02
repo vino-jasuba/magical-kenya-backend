@@ -18,12 +18,17 @@ class TouristExperienceResource extends JsonResource
     public function toArray($request)
     {
         return [
+            'id' => $this->id,
+            'slug' => $this->id,
+            'name' => $this->location->name . ' ' . $this->activity->name,
             'title' => $this->location->name . ' ' . $this->activity->name,
             'description' => $this->description,
             'activity' => [
+                'id' => $this->activity->id,
                 'name' => $this->activity->name,
             ],
             'location' => [
+                'id' => $this->location->id,
                 'name' => $this->location->name,
             ],
             'carousel' => FileResource::collection($this->mediaFor('carousel')),

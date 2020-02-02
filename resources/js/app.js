@@ -1,12 +1,14 @@
 require('./bootstrap');
 import 'vue-form-wizard/dist/vue-form-wizard.min.css'
 import 'vue-loading-overlay/dist/vue-loading.css';
+import 'vue-select/dist/vue-select.css';
 import VueFormWizard from 'vue-form-wizard'
 import CKEditor from '@ckeditor/ckeditor5-vue';
 import VuePlaceAutocomplete from 'vue-place-autocomplete';
 import Loading from 'vue-loading-overlay';
 import Vuelidate from 'vuelidate'
 import Notifications from 'vue-notification'
+import vSelect from 'vue-select'
 
 window.Vue = require ('vue');
 
@@ -46,6 +48,8 @@ Vue.component(
 );
 
 Vue.component('loading', Loading);
+
+Vue.component('v-select', vSelect)
 
 Vue.use( CKEditor );
 

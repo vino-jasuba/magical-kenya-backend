@@ -1,16 +1,20 @@
-<style scoped>
+<style>
     .action-link {
         cursor: pointer;
+    }
+
+    .clipped-text p:not(:first-child) {
+        display: none;
     }
 </style>
 
 <template>
     <div class="col">
-        <div class="card shadow-sm mt-4" style="width: 18rem;">
+        <div class="card shadow-sm mt-4" style="width: 18rem; ">
             <img class="card-img-top" :src="getPreviewImage()" alt="Card image cap">
             <div class="card-body">
                 <h5 class="card-title">{{article.name}}</h5>
-                <div v-html="article.description" class="card-text"></div>
+                <!-- <div v-html="article.description" class="card-text clipped-text"></div> -->
                 <a :href="`${target_url}/${article.slug}`" class="btn btn-primary">See More</a>
             </div>
         </div>

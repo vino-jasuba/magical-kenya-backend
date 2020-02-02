@@ -12,6 +12,7 @@
 */
 
 use App\Http\Controllers\Admin\ActivityController;
+use App\Http\Controllers\Admin\ExperiencesController;
 use App\Http\Controllers\Admin\LocationController;
 
 Auth::routes();
@@ -28,5 +29,8 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('activities/{activity}', [ActivityController::class, 'edit'])->name('admin.activities.edit');
 	Route::get('locations', [LocationController::class, 'index'])->name('admin.locations.index');
     Route::get('locations/create', [LocationController::class, 'create'])->name('admin.locations.create');
-    Route::get('locations/{location}', [LocationController::class, 'edit'])->name('admin.locations.edit');
+	Route::get('locations/{location}', [LocationController::class, 'edit'])->name('admin.locations.edit');
+	Route::get('experiences', [ExperiencesController::class, 'index'])->name('admin.experiences.index');
+    Route::get('experiences/create', [ExperiencesController::class, 'create'])->name('admin.experiences.create');
+    Route::get('experiences/{experience}', [ExperiencesController::class, 'edit'])->name('admin.experiences.edit');
 });

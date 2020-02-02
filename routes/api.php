@@ -20,3 +20,4 @@ Route::apiResource('media', 'MediaController')->only(['store', 'update', 'destro
 Route::apiResource('events', 'EventController');
 Route::get('tags', 'TagController');
 Route::get('search', 'SearchController');
+Route::get('dropdown-options', 'DropdownOptionsController');

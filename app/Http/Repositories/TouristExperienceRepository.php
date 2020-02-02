@@ -63,6 +63,7 @@ class TouristExperienceRepository implements TouristExperienceRepositoryContract
                 TagFilter::class,
             ])
             ->thenReturn()
+            ->latest()
             ->paginate($this->perPage($request));
     }
 
