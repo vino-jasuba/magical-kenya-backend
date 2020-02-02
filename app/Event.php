@@ -10,9 +10,9 @@ class Event extends Model
 {
     use HasQrCode;
 
-    protected $guarded = [];
+    protected $fillable = ['start_date', 'end_date', 'external_url', 'title'];
 
-    protected $dates = ['due_date'];
+    // protected $dates = ['start_date', 'end_date'];
 
     public function media()
     {
@@ -21,12 +21,12 @@ class Event extends Model
 
     public function scopeUpcoming($query)
     {
-        return $query->whereDate('due_date', '>=', date('Y-m-d'));
+        return $query->whereDate('start_date', '>=', date('Y-m-d'));
     }
 
     public function scopePast($query)
     {
-        return $query->whereDate('due_date', '<=', date('Y-m-d'));
+        return $query->whereDate('end_date', '<=', date('Y-m-d'));
     }
 
     public function getNameAttribute()

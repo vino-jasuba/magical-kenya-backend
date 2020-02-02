@@ -27,7 +27,7 @@ class LocationController extends Controller
      */
     public function index(Request $request)
     {
-        $locationCollection = $this->locationRepository->getAllTouristDestinations($request);
+        $locationCollection = $this->locationRepository->touristDestinationsPaginate($request);
 
         return LocationResource::collection($locationCollection);
     }

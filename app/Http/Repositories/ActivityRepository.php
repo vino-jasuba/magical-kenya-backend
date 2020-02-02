@@ -30,6 +30,6 @@ class ActivityRepository implements ActivityRepositoryContract
 
     public function listActivities(\Illuminate\Http\Request $request): LengthAwarePaginator
     {
-        return Activity::orderBy('created_at', 'desc')->paginate($this->perPage($request));
+        return Activity::latest()->paginate($this->perPage($request));
     }
 }

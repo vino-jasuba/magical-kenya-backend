@@ -8,7 +8,8 @@ use Faker\Generator as Faker;
 $factory->define(Event::class, function (Faker $faker) {
     return [
         'title' => $faker->sentence,
-        'due_date' => $faker->dateTime,
+        'start_date' => $faker->dateTime,
+        'end_date' => $faker->dateTime,
         'external_url' => $faker->url,
     ];
 });

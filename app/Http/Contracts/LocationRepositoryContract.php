@@ -31,7 +31,7 @@ interface LocationRepositoryContract
      * @param Request $request
      * @return LengthAwarePaginator
      */
-    public function getAllTouristDestinations(Request $request) : LengthAwarePaginator;
+    public function touristDestinationsPaginate(Request $request) : LengthAwarePaginator;
 
     /**
      * Soft Delete Destination

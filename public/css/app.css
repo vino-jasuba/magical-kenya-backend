@@ -1,0 +1,4 @@
+.clipped-text p:not(:first-child) {
+  display: none;
+}
+

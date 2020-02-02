@@ -2,36 +2,35 @@
 
 namespace App\Http\Repositories;
 
-use App\Http\Contracts\LocationRepositoryContract;
 use App\Location;
+use Illuminate\Http\Request;
 use App\MagicalKenya\Traits\PaginatorLength;
-use App\Media;
-use Illuminate\Support\Facades\Storage;
-use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use App\Http\Contracts\LocationRepositoryContract;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class LocationRepository implements LocationRepositoryContract
 {
     use PaginatorLength;
 
-    public function createTouristDestination(\Illuminate\Http\Request $request): \App\Location
+    public function createTouristDestination(Request $request): Location
     {
         $location = Location::create($request->input());
         return $location;
     }
 
-    public function updateTouristDestination(\Illuminate\Http\Request $request, \App\Location $location): \App\Location
+    public function updateTouristDestination(Request $request, Location $location): Location
     {
         $location->fill($request->input());
         $location->save();
         return $location;
     }
 
-    public function getAllTouristDestinations(\Illuminate\Http\Request $request): \Illuminate\Contracts\Pagination\LengthAwarePaginator
+    public function touristDestinationsPaginate(Request $request): LengthAwarePaginator
     {
-        return Location::orderBy('created_at', 'desc')->paginate($this->perPage($request));
+        return Location::latest()->paginate($this->perPage($request));
     }
 
-    public function removeLocationFromListing(\App\Location $location)
+    public function removeLocationFromListing(Location $location)
     {
         $location->delete();
     }

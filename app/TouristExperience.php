@@ -11,7 +11,7 @@ class TouristExperience extends Model implements Searchable
 {
     use SoftDeletes;
 
-    protected $guarded = [];
+    protected $fillable = ['activity_id', 'location_id', 'description'];
 
     public function location()
     {
