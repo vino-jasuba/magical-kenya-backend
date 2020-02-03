@@ -103,6 +103,11 @@
                         <i class="ni ni-camera-compact text-blue"></i> {{ __('Tour Experiences') }}
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('admin.events.index') }}">
+                        <i class="ni ni-calendar-grid-58 text-blue"></i> {{ __('Events') }}
+                    </a>
+                </li>
                 <li class="nav-item mb-5" style="position: absolute; bottom: 0;">
                     <a class="nav-link" href="#" target="_blank">
                         <i class="ni ni-cloud-download-95"></i> Powered by FinetekLabs

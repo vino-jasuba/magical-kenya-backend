@@ -5,6 +5,8 @@ namespace App\Exceptions;
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Http\Exceptions\PostTooLargeException;
+use Illuminate\Http\Response;
 
 class Handler extends ExceptionHandler
 {
@@ -49,6 +51,10 @@ class Handler extends ExceptionHandler
     {
         if ($exception instanceof ModelNotFoundException) {
             return response()->json(['message' => $exception->getMessage()], 404);
+        }
+
+        if ($exception instanceof PostTooLargeException) {
+            return response()->json(['errors' => [['uploaded files too large']]], 413);
         }
 
         return parent::render($request, $exception);

@@ -13,7 +13,7 @@ class EventRepository implements EventRepositoryContract
     /** @inheritDoc */
     public function getUpcomingEvents(): \Illuminate\Contracts\Pagination\LengthAwarePaginator
     {
-        return Event::upcoming()->paginate($this->perPage(request()));
+        return Event::paginate($this->perPage(request()));
     }
 
     /** @inheritDoc */

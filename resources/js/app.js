@@ -2,6 +2,8 @@ require('./bootstrap');
 import 'vue-form-wizard/dist/vue-form-wizard.min.css'
 import 'vue-loading-overlay/dist/vue-loading.css';
 import 'vue-select/dist/vue-select.css';
+import 'vue-select-image/dist/vue-select-image.css';
+import 'vue-datetime/dist/vue-datetime.css'
 import VueFormWizard from 'vue-form-wizard'
 import CKEditor from '@ckeditor/ckeditor5-vue';
 import VuePlaceAutocomplete from 'vue-place-autocomplete';
@@ -9,6 +11,9 @@ import Loading from 'vue-loading-overlay';
 import Vuelidate from 'vuelidate'
 import Notifications from 'vue-notification'
 import vSelect from 'vue-select'
+import VueSelectImage from 'vue-select-image'
+import Vuetable, { VueTablePagination } from 'vuetable-2';
+import { Datetime } from 'vue-datetime'
 
 window.Vue = require ('vue');
 
@@ -47,19 +52,39 @@ Vue.component(
     require('./components/ImageUpload.vue').default
 );
 
+Vue.component(
+    'events',
+    require('./components/Events.vue').default
+);
+
+Vue.component(
+    'event-modal',
+    require('./components/CreateUpdateEvent.vue').default
+);
+
 Vue.component('loading', Loading);
 
-Vue.component('v-select', vSelect)
+Vue.component('v-select', vSelect);
+
+Vue.component("vuetable", Vuetable);
+
+Vue.component("vuetable-pagination", VueTablePagination);
+
+Vue.component('datetime', Datetime);
 
 Vue.use( CKEditor );
 
-Vue.use(VueFormWizard)
+Vue.use(VueFormWizard);
 
 Vue.use(VuePlaceAutocomplete);
 
-Vue.use(Notifications)
+Vue.use(Notifications);
 
-Vue.use(Vuelidate)
+Vue.use(Vuelidate);
+
+Vue.use(VueSelectImage);
+
+Vue.use(Vuetable);
 
 const app = new Vue({
     el: '#app',

@@ -20,7 +20,7 @@
         props: ['article_type', 'target_url'],
         data() {
             return {
-               data: [],
+               data: {},
                isLoading: true,
             };
         },
@@ -29,6 +29,7 @@
             axios.get(this.target_url)
                 .then(response => {
                     this.data = {...response.data}
+                    console.log({...this.data});
                     this.isLoading = false;
                 }).catch(error => {
                     console.log({...error.response.data})

@@ -19,7 +19,6 @@ class TouristExperienceResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'slug' => $this->id,
             'name' => $this->location->name . ' ' . $this->activity->name,
             'title' => $this->location->name . ' ' . $this->activity->name,
             'description' => $this->description,
