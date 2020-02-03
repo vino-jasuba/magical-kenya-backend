@@ -43,7 +43,7 @@
                         api-key="AIzaSyCbr2jFV2MbmT7QxP5eUVHywrEG2TUfnDM">
                     </place-autocomplete-field>
                 </div>
-                <div class="form-group row text-right">
+                <div v-if="type === 'experience'" class="form-group row text-right">
                     <label for="signature" class="form-control-label col-2">Must See</label>
                     <label class="custom-toggle ml-3">
                         <input type="checkbox" v-model="mustSeeExperience">
