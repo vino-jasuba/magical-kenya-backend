@@ -18,7 +18,7 @@
                         </div>
                     </div>
                     <div class="pl-lg-4">
-                        <event-modal slug="{{$event->id}}" type="event"></event-modal>
+                        <event-crud slug="{{$event->id}}" type="event"></event-crud>
                     </div>
                 </div>
             </div>

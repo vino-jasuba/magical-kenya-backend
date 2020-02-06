@@ -35,15 +35,9 @@
 <template>
     <div class="w-50 mx-auto row">
         <div class="form-group col-auto text-right">
-            <div class="image-input" :style="{ 'background-image': `url(${imageData})` }" @click="chooseImage">
-                <span v-if="!imageData" class="placeholder"><i class="fa fa-plus"></i></span>
+            <div class="image-input" @click="chooseImage">
+                <span class="placeholder"><i class="fa fa-plus"></i></span>
                 <input class="file-input" ref="fileInput" type="file" @input="onSelectFile">
-            </div>
-        </div>
-        <div v-if="showDescriptionField" class="form-group text-right col">
-            <label class="form-control-label" for="image_description" style="margin-right: 50%;">Image Brief</label>
-            <div class="row">
-                <input class="form-control form-control-alternative col" @input="handleDescriptionChanged" v-model="imageDescription" type="text" name="image_description" id="image_description">
             </div>
         </div>
     </div>
@@ -68,9 +62,7 @@
 
         methods: {
             chooseImage() {
-                if (!this.imageData) {
-                    this.$refs.fileInput.click()
-                }
+                this.$refs.fileInput.click()
             },
 
             onSelectFile() {
@@ -83,7 +75,6 @@
                         this.imageData = e.target.result
                     }
                     reader.readAsDataURL(files[0])
-                    this.showDescriptionField = true;
                     this.file = files[0];
                     this.$emit('imageSelected', {id: this.id, file: this.file, description: this.imageDescription})
                 }

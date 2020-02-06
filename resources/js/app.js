@@ -58,8 +58,13 @@ Vue.component(
 );
 
 Vue.component(
-    'event-modal',
+    'event-crud',
     require('./components/CreateUpdateEvent.vue').default
+);
+
+Vue.component(
+    'generic-modal',
+    require('./components/GenericDeleteModal.vue').default
 );
 
 Vue.component('loading', Loading);

@@ -20,7 +20,7 @@
                     </div>
                     <div class="row">
                         <div class="col justify-content-right">
-                            <event-modal></event-modal>
+                            <event-crud></event-crud>
                         </div>
                     </div>
                 </div>

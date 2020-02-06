@@ -21,7 +21,7 @@
                     </div>
                     <div class="row">
                         <div class="col justify-content-right">
-                            <activity-list class="row" article_type="event" target_url="/events"></activity-list>
+                            <events events="{{$events->toJson()}}"></events>
                             <div class="row">
                                 <div class="col pt-6">
                                     <nav class="d-flex justify-content-center" aria-label="...">

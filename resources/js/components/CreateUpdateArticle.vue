@@ -67,7 +67,7 @@
             v-model="rawLocation"
             placeholder="Enter an an address, zipcode, or location"
             name="rawLocation"
-            api-key="AIzaSyCbr2jFV2MbmT7QxP5eUVHywrEG2TUfnDM"
+            api-key="AIzaSyBngEzW0FoQzqYsB-ENmCyOjY_VvTlz4ig"
           ></place-autocomplete-field>
         </div>
         <div v-if="type === 'experience'" class="form-group row text-right">
@@ -245,12 +245,10 @@ export default {
         }
       })
       .then(res => {
-        console.log({ ...res.data });
         this.activities = { ...res.data }["activities"];
         this.locations = { ...res.data }["locations"];
       })
       .catch(err => {
-        console.log({ ...err.response.data });
       });
   },
 
@@ -358,7 +356,6 @@ export default {
             }
           })
           .catch(error => {
-            console.log({ ...error.response.data });
             this.processErrorResponse(error);
           });
       }
@@ -368,7 +365,7 @@ export default {
 
     updateRecordRequest() {
       return axios
-        .patch(`${this.target_url}/` + this.data.slug, {
+        .patch(`${this.target_url}/` + this.slug, {
           ...this.data,
           headers: {
             Authorization: "Bearer " + Cookie.get("laravel_token")
@@ -401,7 +398,6 @@ export default {
     },
 
     onCancel() {
-      console.log("this is funny");
     },
 
     onSelectMultipleImage(images) {

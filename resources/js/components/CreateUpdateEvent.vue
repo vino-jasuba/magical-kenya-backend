@@ -53,7 +53,7 @@
           />
         </div>
       </tab-content>
-      <tab-content title="Carousel" :before-change="uploadEventImages">
+      <tab-content title="Carousel">
         <div class="form-group row col justify-content-left align-items-center">
           <vue-select-image
             ref="imageSelectRef"
@@ -74,10 +74,7 @@
         <div class="form-group row text-right">
           <image-upload
             :imageIdentifier="imageUniqId"
-            v-for="index in imageFiles.length + 1"
-            :key="index"
             @imageSelected="handleSelectedImage"
-            @imageDescriptionChanged="handleDescriptionChanged"
           ></image-upload>
         </div>
       </tab-content>
@@ -100,7 +97,8 @@ export default {
         title: null,
         external_url: null,
         start_date: null,
-        end_date: null
+        end_date: null,
+        carousel: []
       },
       isEditing: false,
       imageFiles: [],
@@ -133,12 +131,10 @@ export default {
         }
       })
       .then(res => {
-        console.log({ ...res.data });
         this.activities = { ...res.data }["activities"];
         this.locations = { ...res.data }["locations"];
       })
       .catch(err => {
-        console.log({ ...err.response.data });
       });
   },
 
@@ -173,6 +169,11 @@ export default {
           .then(res => {
             this.isLoading = false;
             this.imageFiles = [];
+            this.headlineImages.push({
+              id: res.data.data[0].id,
+              alt: res.data.data[0].description,
+              src: res.data.data[0].file_path
+            });
             return true;
           })
           .catch(err => {
@@ -184,6 +185,14 @@ export default {
       this.isLoading = false;
       this.imageFiles = [];
       return true;
+    },
+
+    renderLoadedImages() {
+      this.headlineImages = this.data.carousel.map(item => ({
+        id: item.id,
+        src: item.file_path,
+        alt: item.description
+      }));
     },
 
     editContextFetchRecord() {
@@ -214,6 +223,7 @@ export default {
         })
         .then(res => {
           this.data = { ...res.data.data };
+          this.renderLoadedImages();
           return true;
         })
         .catch(error => {
@@ -231,6 +241,7 @@ export default {
         })
         .then(res => {
           this.data = { ...res.data.data };
+          this.renderLoadedImages();
           return true;
         })
         .catch(error => {
@@ -239,7 +250,6 @@ export default {
     },
 
     onCancel() {
-      console.log("this is funny");
     },
 
     onSelectMultipleImage(images) {
@@ -252,12 +262,10 @@ export default {
           .delete("/media/" + item.id)
           .then(res => {
             this.isLoading = false;
-            this.carouselImages = this.carouselImages.filter(
+            this.headlineImages = this.headlineImages.filter(
               a => a.id != item.id
             );
-            this.backgroundImages = this.backgroundImages.filter(
-              a => a.id != item.id
-            );
+
             this.selectedImages = [];
             this.$refs.imageSelectRef.resetMultipleSelection();
           })
@@ -271,7 +279,7 @@ export default {
 
     handleSelectedImage(uploadedFile) {
       this.imageFiles.push(uploadedFile);
-      this.generateUniqueIdForNextImage();
+      this.uploadImages("carousel");
     },
 
     handleDescriptionChanged(value) {
