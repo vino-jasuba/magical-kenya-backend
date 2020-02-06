@@ -62,13 +62,8 @@
         </div>
         <div v-if="type === 'location'" class="form-group row text-right">
           <label for="location" class="form-control-label col-2">Location</label>
-          <place-autocomplete-field
-            class="col-8"
-            v-model="rawLocation"
-            placeholder="Enter an an address, zipcode, or location"
-            name="rawLocation"
-            api-key="AIzaSyBngEzW0FoQzqYsB-ENmCyOjY_VvTlz4ig"
-          ></place-autocomplete-field>
+          <!-- <gmap-autocomplete class="form-control col-8"></gmap-autocomplete> -->
+          <custom-gmap-autocomplete></custom-gmap-autocomplete>
         </div>
         <div v-if="type === 'experience'" class="form-group row text-right">
           <label for="signature" class="form-control-label col-2">Must See</label>
@@ -210,7 +205,8 @@ export default {
       dataImages: [],
       carouselImages: [],
       backgroundImages: [],
-      selectedImages: []
+      selectedImages: [],
+      place: null
     };
   },
   watch: {
@@ -229,7 +225,8 @@ export default {
       description: { required },
       title: { required },
       activity_id: { required },
-      location_id: { required }
+      location_id: { required },
+      rawLocation: { required }
     }
   },
 
@@ -248,14 +245,18 @@ export default {
         this.activities = { ...res.data }["activities"];
         this.locations = { ...res.data }["locations"];
       })
-      .catch(err => {
-      });
+      .catch(err => {});
   },
 
   methods: {
     handleFormSubmit() {
       this.isLoading = true;
       window.location = this.target_url;
+    },
+
+    locationUpdated(latLnt) {
+      this.data.lat = latLnt.latitude;
+      this.data.lng = latLnt.longitude;
     },
 
     uploadCarouselImages() {
@@ -397,8 +398,7 @@ export default {
         });
     },
 
-    onCancel() {
-    },
+    onCancel() {},
 
     onSelectMultipleImage(images) {
       this.selectedImages = images;

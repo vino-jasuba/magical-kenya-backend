@@ -6,14 +6,13 @@ import 'vue-select-image/dist/vue-select-image.css';
 import 'vue-datetime/dist/vue-datetime.css'
 import VueFormWizard from 'vue-form-wizard'
 import CKEditor from '@ckeditor/ckeditor5-vue';
-import VuePlaceAutocomplete from 'vue-place-autocomplete';
 import Loading from 'vue-loading-overlay';
 import Vuelidate from 'vuelidate'
 import Notifications from 'vue-notification'
 import vSelect from 'vue-select'
 import VueSelectImage from 'vue-select-image'
-import Vuetable, { VueTablePagination } from 'vuetable-2';
 import { Datetime } from 'vue-datetime'
+import * as VueGoogleMaps from 'vue2-google-maps'
 
 window.Vue = require ('vue');
 
@@ -67,13 +66,14 @@ Vue.component(
     require('./components/GenericDeleteModal.vue').default
 );
 
+Vue.component(
+    'custom-gmap-autocomplete',
+    require('./components/GmapAutoComplete.vue').default
+);
+
 Vue.component('loading', Loading);
 
 Vue.component('v-select', vSelect);
-
-Vue.component("vuetable", Vuetable);
-
-Vue.component("vuetable-pagination", VueTablePagination);
 
 Vue.component('datetime', Datetime);
 
@@ -81,15 +81,19 @@ Vue.use( CKEditor );
 
 Vue.use(VueFormWizard);
 
-Vue.use(VuePlaceAutocomplete);
-
 Vue.use(Notifications);
 
 Vue.use(Vuelidate);
 
 Vue.use(VueSelectImage);
 
-Vue.use(Vuetable);
+Vue.use(VueGoogleMaps, {
+  load: {
+    key: 'AIzaSyBngEzW0FoQzqYsB-ENmCyOjY_VvTlz4ig',
+    libraries: 'places',
+  },
+  installComponents: true
+});
 
 const app = new Vue({
     el: '#app',
