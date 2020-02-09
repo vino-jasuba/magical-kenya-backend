@@ -8,7 +8,7 @@
   <div class="col">
     <div class="card shadow-sm mt-4" style="width: 18rem;">
       <div
-        :style="{ 'background-image': `url(${getPreviewImage()})` }"
+        :style="{ 'background-image': `url(${getPreviewImage()}?w=300)` }"
         style="width:18rem; height: 18rem; background-size: cover; background-position: center center;"
       ></div>
       <div class="card-body">

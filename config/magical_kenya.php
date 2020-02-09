@@ -12,4 +12,6 @@ return [
         'activity' => Activity::class,
         'event' => Event::class,
     ],
+    'use_imageflow' => env('USE_IMAGEFLOW_SERVER', false),
+    'imageflow_base_url' => env('IMAGEFLOW_BASE_URL'),
 ];
