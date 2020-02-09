@@ -34,14 +34,7 @@ class TouristExperienceRepository implements TouristExperienceRepositoryContract
          * Create an instance of the Liaison model and associate with
          * The Experience being created
          */
-        if ($request->has('contact_name')) {
-            $liaison = Liaison::create([
-                'phone_number' => $request->contact_phone_number,
-                'name' => $request->contact_name,
-            ]);
-
-            $liaison->associatedExperiences()->save($touristExperience);
-        }
+        $this->updateLiaisonDetailsFromRequest($touristExperience, $request);
 
         $this->syncTagsFromRequest($touristExperience, $request);
 
@@ -75,6 +68,8 @@ class TouristExperienceRepository implements TouristExperienceRepositoryContract
         $touristExperience->fill($request->input());
         $touristExperience->save();
 
+        $this->updateLiaisonDetailsFromRequest($touristExperience, $request);
+
         $this->syncTagsFromRequest($touristExperience, $request);
 
         return $touristExperience;
@@ -102,6 +97,18 @@ class TouristExperienceRepository implements TouristExperienceRepositoryContract
             ->toArray();
 
             $touristExperience->tags()->sync($tags);
+        }
+    }
+
+    private function updateLiaisonDetailsFromRequest(TouristExperience $touristExperience, Request $request)
+    {
+        if ($request->has('contact_name')) {
+            $liaison = Liaison::firstOrCreate([
+                'phone_number' => $request->contact_phone_number,
+                'name' => $request->contact_name,
+            ]);
+
+            $liaison->associatedExperiences()->save($touristExperience);
         }
     }
 }
