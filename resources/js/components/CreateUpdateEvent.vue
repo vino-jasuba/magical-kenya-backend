@@ -204,6 +204,8 @@ export default {
           .get(`${this.target_url}/` + this.slug)
           .then(response => {
             this.data = { ...this.data, ...response.data.data };
+            this.data.start_date = (new Date(this.data.start_date)).toISOString();
+            this.data.end_date = (new Date(this.data.end_date)).toISOString();
           })
           .catch(error => {
             this.processErrorResponse(error);

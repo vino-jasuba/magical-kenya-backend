@@ -3,34 +3,40 @@
 namespace App\Http\Repositories;
 
 use App\Event;
-use App\Http\Contracts\EventRepositoryContract;
+use Illuminate\Http\Request;
+use Illuminate\Pipeline\Pipeline;
 use App\MagicalKenya\Traits\PaginatorLength;
+use App\Http\Contracts\EventRepositoryContract;
+use App\MagicalKenya\Filters\DateFilter;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class EventRepository implements EventRepositoryContract
 {
     use PaginatorLength;
 
     /** @inheritDoc */
-    public function getUpcomingEvents(): \Illuminate\Contracts\Pagination\LengthAwarePaginator
+    public function getAllEvents(Request $request): LengthAwarePaginator
     {
-        return Event::upcoming()->paginate($this->perPage(request()));
+        $queryBuilder = Event::query();
+
+        return app(Pipeline::class)
+            ->send($queryBuilder)
+            ->through([
+                DateFilter::class,
+            ])
+            ->thenReturn()
+            ->paginate($this->perPage($request));
     }
 
     /** @inheritDoc */
-    public function getPastEvents(): \Illuminate\Contracts\Pagination\LengthAwarePaginator
-    {
-        return Event::past()->paginate($this->perPage(request()));
-    }
-
-    /** @inheritDoc */
-    public function createEvent(\Illuminate\Http\Request $request): \App\Event
+    public function createEvent(Request $request):Event
     {
         $event = Event::create($request->input());
         return $event;
     }
 
     /** @inheritDoc */
-    public function updateEvent(\Illuminate\Http\Request $request, \App\Event $event): \App\Event
+    public function updateEvent(Request $request, Event $event):Event
     {
         $event->fill($request->input());
         $event->save();
@@ -38,7 +44,7 @@ class EventRepository implements EventRepositoryContract
     }
 
     /** @inheritDoc */
-    public function deleteEvent(\App\Event $event)
+    public function deleteEvent(Event $event)
     {
         $event->delete();
     }

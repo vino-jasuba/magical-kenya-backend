@@ -8,20 +8,8 @@ use Illuminate\Http\Request;
 
 interface EventRepositoryContract
 {
-    /**
-     * Find all events that are not due yet
-     *
-     * @return LengthAwarePaginator
-     */
-    public function getUpcomingEvents() : LengthAwarePaginator;
 
-    /**
-     * Find all past events
-     *
-     * @return LengthAwarePaginator
-     */
-    public function getPastEvents() : LengthAwarePaginator;
-
+    public function getAllEvents(Request $request) : LengthAwarePaginator;
     /**
      * Save new event to database
      *

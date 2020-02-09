@@ -24,20 +24,19 @@ class EventsTest extends TestCase
         // act
         $response = $this->postJson('/api/v1/events', [
             'title' => 'MARATHON OF MARRAKECH',
-            'start_date' => Carbon::now()->addMonth()->format('Y-m-d'),
-            'end_date' => Carbon::now()->addMonth()->format('Y-m-d'),
+            'start_date' => Carbon::now()->addDays(1)->format('Y-m-d'),
+            'end_date' => Carbon::now()->addDays(2)->format('Y-m-d'),
             'external_url' => $this->faker()->url,
         ]);
 
         // assert
-        $response->assertStatus(201)
+        $response
             ->assertSee('MARATHON OF MARRAKECH')
             ->assertSee('marathon-of-marrakech.svg');
     }
 
     public function testUsersCanUpdateEvents()
     {
-        $this->withoutExceptionHandling();
         // setup
         Passport::actingAs(factory(User::class)->create());
         $event = factory(Event::class)->create();
@@ -45,8 +44,8 @@ class EventsTest extends TestCase
         // act
         $response = $this->patchJson('/api/v1/events/' . $event->id, [
             'title' => 'Marathon',
-            'start_date' => Carbon::now()->addMonth()->format('Y-m-d'),
-            'end_date' => Carbon::now()->addMonth()->format('Y-m-d'),
+            'start_date' => Carbon::now()->addDays(1)->format('Y-m-d'),
+            'end_date' => Carbon::now()->addDays(2)->format('Y-m-d'),
             'external_url' => $this->faker()->url,
         ]);
 
@@ -59,13 +58,15 @@ class EventsTest extends TestCase
     {
         $upcomingEvents = factory(Event::class, 12)->create([
             'start_date' => now()->addDays(rand(1, 10)),
+            'end_date' => now()->addDays(rand(11, 20)),
         ]);
 
         $pastEvents = factory(Event::class, 12)->create([
-            'end_date' => now()->subDays(rand(1, 10)),
+            'start_date' => now()->subDays(rand(1, 10)),
+            'end_date' => now()->addDays(rand(11, 20)),
         ]);
 
-        $response = $this->getJson('/api/v1/events');
+        $response = $this->getJson('/api/v1/events?q=upcoming');
 
         $response->assertStatus(200);
         $this->assertEquals(12, $response->json('meta.total'));
