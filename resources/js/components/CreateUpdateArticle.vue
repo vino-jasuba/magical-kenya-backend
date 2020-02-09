@@ -69,6 +69,27 @@
           ></custom-gmap-autocomplete>
         </div>
         <div v-if="type === 'experience'" class="form-group row text-right">
+          <label class="form-control-label col-2" for="contact_name">Contact Name</label>
+          <input
+            class="form-control col-8"
+            v-model.trim="$v.data.contact_name.$model"
+            type="text"
+            name="contact_name"
+            id="contact_name"
+          />
+        </div>
+        <div v-if="type === 'experience'" class="form-group row text-right">
+          <label class="form-control-label col-2" for="contact_phone_number">Phone Number</label>
+          <input
+            class="form-control col-8"
+            :class="{'is-invalid': $v.data.contact_phone_number.$error}"
+            v-model.trim="$v.data.contact_phone_number.$model"
+            type="text"
+            name="contact_phone_number"
+            id="contact_phone_number"
+          />
+        </div>
+        <div v-if="type === 'experience'" class="form-group row text-right">
           <label for="signature" class="form-control-label col-2">Must See</label>
           <label class="custom-toggle ml-3">
             <input type="checkbox" v-model="mustSeeExperience" />
@@ -156,7 +177,7 @@ import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import Cookie from "js-cookie";
 import Swatches from "vue-swatches";
 import uuid from "uuid/v4";
-import { required } from "vuelidate/lib/validators";
+import { required, requiredIf } from "vuelidate/lib/validators";
 
 export default {
   props: ["slug", "type"],
@@ -171,8 +192,8 @@ export default {
         lat: null,
         activity_id: null,
         location_id: null,
-        // contact_name: null,
-        // contact_phone_number: null,
+        contact_name: null,
+        contact_phone_number: null,
         lng: null,
         carousel: [],
         background: [],
@@ -209,6 +230,7 @@ export default {
       carouselImages: [],
       backgroundImages: [],
       selectedImages: [],
+      hasLiaison: false,
       place: null
     };
   },
@@ -229,7 +251,15 @@ export default {
       title: { required },
       activity_id: { required },
       location_id: { required },
-      rawLocation: { required }
+      rawLocation: { required },
+      contact_name: { required },
+      contact_phone_number: {
+        requiredIf: function(value) {
+          return (
+            this.data.contact_name === null || this.data.contact_name === ""
+          );
+        }
+      }
     }
   },
 
@@ -331,8 +361,8 @@ export default {
             if (this.type == "location") {
               this.initialPosition = {
                 lat: response.data.data.lat,
-                lng: response.data.data.lng,
-              }
+                lng: response.data.data.lng
+              };
             }
 
             if (this.type == "experience") {
@@ -346,6 +376,11 @@ export default {
               };
               this.data.location_id = this.selectedLocation.id;
               this.data.activity_id = this.selectedActivity.id;
+              this.data.contact_name = response.data.data.liaison.name;
+              this.data.contact_phone_number =
+                response.data.data.liaison.phone_number;
+
+              this.mustSeeExperience = response.data.data.tags.length ? true : false;
             }
 
             // carousel images are available on all resources

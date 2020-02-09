@@ -29,6 +29,8 @@ class UpdateExperienceRequest extends FormRequest
             'description' => ['filled', 'string'],
             'activity_id' => ['filled', 'exists:' . (new Activity)->getTable() . ',id'],
             'location_id' => ['filled', 'exists:' . (new Location)->getTable() . ',id'],
+            'contact_name' => ['filled', 'string'],
+            'contact_phone_number' => ['required_with:contact_name'],
         ];
     }
 }
