@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Event;
 use App\Http\Contracts\EventRepositoryContract;
+use App\Http\Requests\CreateEventRequest;
 use App\Http\Resources\EventResource;
 use Illuminate\Http\Request;
 
@@ -22,9 +23,9 @@ class EventController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $upcomingEvents = $this->eventRepository->getUpcomingEvents();
+        $upcomingEvents = $this->eventRepository->getAllEvents($request);
         return EventResource::collection($upcomingEvents);
     }
 
@@ -34,7 +35,7 @@ class EventController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateEventRequest $request)
     {
         $event = $this->eventRepository->createEvent($request);
         return new EventResource($event);
@@ -59,7 +60,7 @@ class EventController extends Controller
      * @param  \App\Event  $event
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Event $event)
+    public function update(CreateEventRequest $request, Event $event)
     {
         $event = $this->eventRepository->updateEvent($request, $event);
         return new EventResource($event);
