@@ -18,10 +18,13 @@ class EventResource extends JsonResource
     public function toArray($request)
     {
         return [
+            'id' => $this->id,
             'title' => $this->title,
-            'due_date' => $this->due_date->toFormattedDateString(),
+            'start_date' => $this->start_date,
+            'end_date' => $this->end_date,
             'external_url' => $this->external_url,
             'qr_code' => new FileResource($this->mediaFor('qr_code')->first()),
+            'carousel' => FileResource::collection($this->mediaFor('carousel')),
         ];
     }
 }
