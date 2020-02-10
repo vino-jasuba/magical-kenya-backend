@@ -125,13 +125,13 @@
           </div>
         </div>
         <div class="form-group row text-right">
-          <image-upload
+          <image-upload-with-description
             :imageIdentifier="imageUniqId"
             v-for="index in imageFiles.length + 1"
             :key="index"
             @imageSelected="handleSelectedImage"
             @imageDescriptionChanged="handleDescriptionChanged"
-          ></image-upload>
+          ></image-upload-with-description>
         </div>
       </tab-content>
       <tab-content
@@ -157,13 +157,13 @@
           </div>
         </div>
         <div class="form-group row text-right">
-          <image-upload
+          <image-upload-with-description
             :imageIdentifier="imageUniqId"
             v-for="index in imageFiles.length + 1"
             :key="index"
             @imageSelected="handleSelectedImage"
             @imageDescriptionChanged="handleDescriptionChanged"
-          ></image-upload>
+          ></image-upload-with-description>
         </div>
       </tab-content>
       <tab-content title="Upload">Upload media files</tab-content>
@@ -478,16 +478,25 @@ export default {
     },
 
     handleDescriptionChanged(value) {
-      for (let i = 0; i < this.imageFiles.length; i++) {
-        const targetImage = this.imageFiles[i];
+      // for (let i = 0; i < this.imageFiles.length; i++) {
+      //   const targetImage = this.imageFiles[i];
 
-        if (targetImage.id == value.id) {
-          this.imageFiles[i] = {
-            ...this.imageFiles[i],
-            ...value
-          };
+      //   if (targetImage.id == value.id) {
+      //     this.imageFiles[i] = {
+      //       ...this.imageFiles[i],
+      //       ...value
+      //     };
+      //   }
+      // }
+      console.log({value});
+      this.imageFiles = this.imageFiles.map(f => {
+        if (f.id === value.id) {
+          return value;
         }
-      }
+
+        return f;
+      })
+      console.log({value});
     },
 
     generateUniqueIdForNextImage() {

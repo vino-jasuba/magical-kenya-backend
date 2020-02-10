@@ -172,7 +172,7 @@ export default {
             this.headlineImages.push({
               id: res.data.data[0].id,
               alt: res.data.data[0].description,
-              src: res.data.data[0].file_path
+              src: `${res.data.data[0].file_path}?w=600`
             });
             return true;
           })

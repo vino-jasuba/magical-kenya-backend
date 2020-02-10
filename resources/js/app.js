@@ -52,6 +52,11 @@ Vue.component(
 );
 
 Vue.component(
+    'image-upload-with-description',
+    require('./components/ImagePreview.vue').default
+);
+
+Vue.component(
     'events',
     require('./components/Events.vue').default
 );
