@@ -27,7 +27,7 @@ class MediaUploadRequest extends FormRequest
         $targetTypes = array_keys(config('magical_kenya.model_mappings'));
         return [
             'files' => ['required', 'array'],
-            'files.*' => ['required', 'file', 'mimetypes:image/png,image/jpeg,image/jpg,video/mkv,video/mp4'],
+            'files.*' => ['required', 'file', 'max:6120', 'mimetypes:image/png,image/jpeg,image/jpg,video/mkv,video/mp4'],
             'description' => ['required', 'array'],
             'description.*' => ['nullable', 'string'],
             'target_type' => ['required', 'string', Rule::in($targetTypes)],

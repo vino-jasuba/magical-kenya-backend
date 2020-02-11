@@ -126,12 +126,13 @@
         </div>
         <div class="form-group row text-right">
           <image-upload-with-description
-            :imageIdentifier="imageUniqId"
-            v-for="index in imageFiles.length + 1"
-            :key="index"
-            @imageSelected="handleSelectedImage"
+            v-for="image in imageFiles"
+            :key="image.id"
+            :image="image"
             @imageDescriptionChanged="handleDescriptionChanged"
+            @imageRemoved="handleImageRemoved"
           ></image-upload-with-description>
+          <image-upload @imageSelected="handleSelectedImage"></image-upload>
         </div>
       </tab-content>
       <tab-content
@@ -158,12 +159,13 @@
         </div>
         <div class="form-group row text-right">
           <image-upload-with-description
-            :imageIdentifier="imageUniqId"
-            v-for="index in imageFiles.length + 1"
-            :key="index"
-            @imageSelected="handleSelectedImage"
+            v-for="image in imageFiles"
+            :key="image.id"
+            :image="image"
             @imageDescriptionChanged="handleDescriptionChanged"
+            @imageRemoved="handleImageRemoved"
           ></image-upload-with-description>
+          <image-upload @imageSelected="handleSelectedImage"></image-upload>
         </div>
       </tab-content>
       <tab-content title="Upload">Upload media files</tab-content>
@@ -176,7 +178,6 @@ import "vue-swatches/dist/vue-swatches.min.css";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import Cookie from "js-cookie";
 import Swatches from "vue-swatches";
-import uuid from "uuid/v4";
 import { required, requiredIf } from "vuelidate/lib/validators";
 
 export default {
@@ -219,7 +220,6 @@ export default {
       imageFiles: [],
       isLoading: true,
       fullPage: true,
-      imageUniqId: uuid(),
       loadingWizard: true,
       activities: [],
       locations: [],
@@ -380,7 +380,9 @@ export default {
               this.data.contact_phone_number =
                 response.data.data.liaison.phone_number;
 
-              this.mustSeeExperience = response.data.data.tags.length ? true : false;
+              this.mustSeeExperience = response.data.data.tags.length
+                ? true
+                : false;
             }
 
             // carousel images are available on all resources
@@ -474,33 +476,22 @@ export default {
 
     handleSelectedImage(uploadedFile) {
       this.imageFiles.push(uploadedFile);
-      this.generateUniqueIdForNextImage();
+    },
+
+    handleImageRemoved(value) {
+      this.imageFiles = this.imageFiles.filter(f => {
+        return f.id !== value.id;
+      });
     },
 
     handleDescriptionChanged(value) {
-      // for (let i = 0; i < this.imageFiles.length; i++) {
-      //   const targetImage = this.imageFiles[i];
-
-      //   if (targetImage.id == value.id) {
-      //     this.imageFiles[i] = {
-      //       ...this.imageFiles[i],
-      //       ...value
-      //     };
-      //   }
-      // }
-      console.log({value});
       this.imageFiles = this.imageFiles.map(f => {
         if (f.id === value.id) {
-          return value;
+          f.description = value.description;
         }
 
         return f;
-      })
-      console.log({value});
-    },
-
-    generateUniqueIdForNextImage() {
-      this.imageUniqId = uuid();
+      });
     },
 
     /**
