@@ -37,16 +37,11 @@
     <div class="form-group col-auto text-right">
       <div
         class="image-input"
-        :style="{ 'background-image': `url(${imageData})` }"
-        @click="chooseImage"
+        :style="{ 'background-image': `url(${image.fileBase64Encoded})` }"
       >
-        <span v-if="!imageData" class="placeholder">
-          <i class="fa fa-plus"></i>
-        </span>
-        <input class="file-input" ref="fileInput" type="file" @input="onSelectFile" />
       </div>
     </div>
-    <div v-if="showDescriptionField" class="form-group text-right col">
+    <div class="form-group text-right col">
       <label
         class="form-control-label"
         for="image_description"
@@ -56,11 +51,12 @@
         <input
           class="form-control form-control-alternative col"
           @input="handleDescriptionChanged"
-          v-model="imageDescription"
+          v-model="description"
           type="text"
           name="image_description"
-          id="image_description"
+          :id="`image_description-${image.id}`"
         />
+        <button class="btn btn-danger" @click="removeImage"><i class="fa fa-trash"></i></button>
       </div>
     </div>
   </div>
@@ -68,55 +64,25 @@
 
 <script>
 export default {
-  props: ["imageIdentifier"],
+  props: ["image"],
   data() {
     return {
-      imageData: "",
-      imageDescription: "",
-      showDescriptionField: false,
-      file: null,
       id: null,
-      hasBackground: false,
+      file: null,
+      description: null,
     };
   },
 
-  mounted() {
-    this.id = this.imageIdentifier;
-  },
-
   methods: {
-    chooseImage() {
-      if (!this.imageData) {
-        this.$refs.fileInput.click();
-      }
-    },
-
-    onSelectFile() {
-      const input = this.$refs.fileInput;
-      const files = input.files;
-
-      if (files && files[0]) {
-        const reader = new FileReader();
-        reader.onload = e => {
-          this.imageData = e.target.result;
-        };
-        reader.readAsDataURL(files[0]);
-        this.showDescriptionField = true;
-        this.file = files[0];
-        this.$emit("imageSelected", {
-          id: this.id,
-          file: this.file,
-          description: this.imageDescription
-        });
-      }
-    },
-
     handleDescriptionChanged() {
       this.$emit("imageDescriptionChanged", {
-        id: this.id,
-        file: this.file,
-        description: this.imageDescription
+        id: this.image.id,
+        description: this.description
       });
+    },
+
+    removeImage() {
+      this.$emit('imageRemoved', {id: this.image.id});
     }
   }
 };

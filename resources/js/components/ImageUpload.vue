@@ -46,6 +46,8 @@
 </template>
 
 <script>
+import uuid from "uuid/v4";
+
 export default {
   props: ["imageIdentifier"],
   data() {
@@ -64,6 +66,7 @@ export default {
 
   methods: {
     chooseImage() {
+      this.id = uuid();
       this.$refs.fileInput.click();
     },
 
@@ -75,22 +78,29 @@ export default {
         const reader = new FileReader();
         reader.onload = e => {
           this.imageData = e.target.result;
+
+          if (files[0].size > 5242880) {
+            this.$notify({
+              group: "articles",
+              title: "File Too Large",
+              text: "Uploaded File Exceeds Maximum Allowed File Size (5mb)",
+              type: "error",
+              duration: 5000
+            });
+
+            return;
+          }
+
+          this.$emit("imageSelected", {
+            id: this.id,
+            file: this.file,
+            description: this.imageDescription,
+            fileBase64Encoded: this.imageData
+          });
         };
         reader.readAsDataURL(files[0]);
         this.file = files[0];
-        this.$emit("imageSelected", {
-          id: this.id,
-          file: this.file,
-          description: this.imageDescription
-        });
       }
-    },
-
-    handleDescriptionChanged() {
-      this.$emit("imageDescriptionChanged", {
-        id: this.id,
-        description: this.imageDescription
-      });
     }
   }
 };
