@@ -24,6 +24,7 @@ class ActivityResource extends JsonResource
             'catchphrase' => $this->catchphrase,
             'description' => $this->description,
             'slug' => $this->slug,
+            'experiences_count' => $this->experiences_count,
             'carousel' => FileResource::collection($this->mediaFor('carousel')),
             'background' => FileResource::collection($this->mediaFor('background')),
         ];
