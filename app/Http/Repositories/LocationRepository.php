@@ -27,11 +27,12 @@ class LocationRepository implements LocationRepositoryContract
 
     public function touristDestinationsPaginate(Request $request): LengthAwarePaginator
     {
-        return Location::latest()->paginate($this->perPage($request));
+        return Location::withCount('experiences')->latest()->paginate($this->perPage($request));
     }
 
     public function removeLocationFromListing(Location $location)
     {
+        $location->experiences()->delete();
         $location->delete();
     }
 }

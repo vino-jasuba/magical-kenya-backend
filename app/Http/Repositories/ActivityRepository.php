@@ -25,11 +25,12 @@ class ActivityRepository implements ActivityRepositoryContract
 
     public function deleteActivity(\App\Activity $activity)
     {
+        $activity->experiences()->delete();
         $activity->delete();
     }
 
     public function listActivities(\Illuminate\Http\Request $request): LengthAwarePaginator
     {
-        return Activity::latest()->paginate($this->perPage($request));
+        return Activity::withCount('experiences')->latest()->paginate($this->perPage($request));
     }
 }

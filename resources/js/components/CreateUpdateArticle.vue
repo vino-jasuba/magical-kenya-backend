@@ -9,7 +9,7 @@
     <loading :active="isLoading" :can-cancel="true" :on-cancel="onCancel" :is-full-page="fullPage"></loading>
     <notifications group="articles" />
     <form-wizard color="#5e72e4" title subtitle stepSize="xs" @on-complete="handleFormSubmit">
-      <tab-content class="mt-6" title="Create Activity" :before-change="validateAsync">
+      <tab-content class="mt-6" :title="`Create ${type}`" :before-change="validateAsync">
         <div v-if="type !== 'experience'" class="form-group row text-right">
           <label class="form-control-label col-2" for="name">Name</label>
           <input
@@ -105,6 +105,8 @@
             :config="editorConfig"
           ></ckeditor>
         </div>
+        <button data-toggle="modal" :data-target="`#modal-${data.id}`" class="btn btn-danger" style="position: absolute;bottom: 2.4rem;">Delete</button>
+        <generic-modal :type="type" :id="data.id" :experiences_count="data.experiences_count"></generic-modal>
       </tab-content>
       <tab-content title="Carousel" :before-change="uploadCarouselImages">
         <div class="form-group row col justify-content-left align-items-center">
@@ -195,6 +197,7 @@ export default {
         location_id: null,
         contact_name: null,
         contact_phone_number: null,
+        experiences_count: 0,
         lng: null,
         carousel: [],
         background: [],

@@ -43,5 +43,6 @@
         <server name="MAIL_DRIVER" value="array"/>
         <server name="QUEUE_CONNECTION" value="sync"/>
         <server name="SESSION_DRIVER" value="array"/>
+        <server name="USE_IMAGEFLOW_SERVER" value="false"/>
     </php>
 </phpunit>

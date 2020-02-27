@@ -17,6 +17,7 @@ class LocationResource extends JsonResource
      */
     public function toArray($request)
     {
+
         return [
             'id' => $this->id,
             'name' => $this->name,
@@ -27,6 +28,7 @@ class LocationResource extends JsonResource
             'icon' => $this->icon,
             'lat' => $this->lat,
             'lng' => $this->lng,
+            'experiences_count' => $this->experiences_count,
             'background' => FileResource::collection($this->mediaFor('background')),
             'carousel' => FileResource::collection($this->mediaFor('carousel')),
             'qr_code' => new FileResource($this->mediaFor('qr_code')->first())

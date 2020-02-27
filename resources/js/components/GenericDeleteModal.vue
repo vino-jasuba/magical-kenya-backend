@@ -8,21 +8,15 @@
   <div class="col-md-4">
     <div
       class="modal fade"
-      :id="'modal-' + article.id"
+      :id="'modal-' + id"
       tabindex="-1"
       role="dialog"
-      :aria-labelledby="'modal-' + article.id"
+      :aria-labelledby="'modal-' + id"
       aria-hidden="true"
     >
       <div class="modal-dialog modal-danger modal-dialog-centered modal-10" role="document">
         <div class="modal-content bg-gradient-info">
           <div class="modal-header">
-            <h5
-              v-if="type != 'experience'"
-              class="modal-title"
-              id="modal-title-notification"
-            >Delete {{article.title}}</h5>
-            <h5 v-else class="modal-title" id="modal-title-notification">Delete {{article.name}}</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">×</span>
             </button>
@@ -32,6 +26,7 @@
             <div class="py-3 text-center">
               <i class="ni ni-bell-55 ni-3x"></i>
               <h4 class="heading mt-4">Are you sure you want do delete this {{type}}?</h4>
+              <h3 v-if="type != 'experience'">This will also delete associated {{experiences_count}} experience(s)</h3>
             </div>
           </div>
 
@@ -52,13 +47,20 @@
 
 <script>
 export default {
-  props: ["type", "article"],
+  props: ["type", "id", "experiences_count"],
   methods: {
     deleteResource() {
+      const uris = {
+        location: '/locations/',
+        event: '/events/',
+        experience: '/experiences/',
+        activity: '/activities/'
+      };
+
       axios
-        .delete("/events/" + this.article.id)
+        .delete(uris[this.type] + this.id)
         .then(res => {
-          window.location.href = "/events/";
+          window.location.href = uris[this.type];
         })
         .catch(err => {});
     }

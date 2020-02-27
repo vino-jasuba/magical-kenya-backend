@@ -16,6 +16,6 @@ trait Sluggable
 
     public function resolveRouteBinding($value)
     {
-        return $this->where('slug', $value)->orWhere('id', intval($value))->firstOrFail();
+        return $this->withCount('experiences')->where('slug', $value)->orWhere('id', intval($value))->firstOrFail();
     }
 }
