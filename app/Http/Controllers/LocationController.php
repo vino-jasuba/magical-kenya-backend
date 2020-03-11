@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CreateLocationRequest;
-use App\Http\Requests\UpdateLocationRequest;
-use App\Http\Resources\LocationResource;
-use App\Http\Contracts\LocationRepositoryContract;
 use App\Location;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use App\Http\Resources\LocationResource;
+use App\Http\Requests\UpdateLocationRequest;
+use App\Http\Requests\CreateLocationRequest;
+use App\Http\Contracts\LocationRepositoryContract;
 
 class LocationController extends Controller
 {
