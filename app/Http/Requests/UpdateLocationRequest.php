@@ -24,9 +24,11 @@ class UpdateLocationRequest extends FormRequest
      */
     public function rules()
     {
+        $database = (new Location)->getTable();
+
         return [
             'name' => ['filled', 'string'],
-            'description' => ['filled', 'string'],
+            'description' => ['filled', 'string', "unique:{$database}"],
             'icon' => ['filled', 'string'],
             'catchphrase' => ['filled', 'string'],
             'color_tag' => ['filled', 'string', 'starts_with:#', 'min:4'],

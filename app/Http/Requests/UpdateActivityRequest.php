@@ -28,7 +28,7 @@ class UpdateActivityRequest extends FormRequest
 
         return [
             'catchphrase' => ["filled", "string"],
-            'name' => ["filled", "string"],
+            'name' => ["filled", "string", "unique:{$database}"],
             'description' => ["filled", "string"],
             'color_tag' => ['filled', 'string', 'starts_with:#', 'min:4'],
         ];
